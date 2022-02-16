@@ -7,8 +7,10 @@ import tempData from './components/temp_axiosJSON';
 import { createContext, useContext, useReducer } from 'react';
 
 const GENERIC_TASK_ACTIONS = {
-  GET: 'get',
-  POST: 'post'
+  POST: 'add',
+  DELETE: 'delete',
+  PUT: 'update'
+  //NO NEED FOR GET IN HERE, as it is a global state and is always updated as of now
 }
 
 export const GenericTaskContext = createContext();
