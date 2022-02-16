@@ -3,16 +3,20 @@ import { DropdownItem, DropdownMenu, DropdownToggle, Nav, Navbar, NavbarBrand, N
 
 function Header() {
   return (
-    <div>
-      <Navbar expand="sm" light>
-        <NavbarBrand href="/">too-due</NavbarBrand>
+    <div style={{ paddingBottom: "20px" }}>
+      <Navbar color="dark" dark expand="sm">
+
+        <NavbarBrand href="/">
+          <img src="logoArrow.png" style={{ height: "40px" }}>
+          </img> too-due
+        </NavbarBrand>
         <Nav className="ml-auto" navbar>
           <NavItem>
             <NavLink href="/">Overview</NavLink>
           </NavItem>
           <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>
-              Users (Incomplete)
+              Users (siraz22)
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem>

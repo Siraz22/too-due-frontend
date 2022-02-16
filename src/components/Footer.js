@@ -8,7 +8,8 @@ function Footer() {
       <div className="container">
         <div className="row-grid align-items-center mb-5 row">
           <div className="col-sm-7">
-            <h3 className="text-primary mb-2">Welcome to the personalized To Do List!</h3>
+            <h2 className="text-primary mb-2">Welcome to the personalized </h2>
+            <h3 className="text-primary mb-2">To Do list!</h3>
             <h6 className="mb-0 font-weight-light">Want your username to be set up? Let's get in touch!</h6>
           </div>
           <div className="col-sm-5">
