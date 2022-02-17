@@ -6,7 +6,7 @@ import TaskList from './components/TaskList';
 import tempData from './components/temp_axiosJSON';
 import { createContext, useContext, useReducer } from 'react';
 
-const GENERIC_TASK_ACTIONS = {
+export const GENERIC_TASK_ACTIONS = {
   POST: 'add',
   DELETE: 'delete',
   PUT: 'update'
@@ -21,13 +21,15 @@ function App() {
 
   function genericTaskReducer(taskState, action) {
     switch (action.type) {
-      case GENERIC_TASK_ACTIONS.POST: return [...genericTaskState, ...taskState]
+      case GENERIC_TASK_ACTIONS.POST: return [...taskState, action.payload]
       case GENERIC_TASK_ACTIONS.GET: return genericTaskState;
     }
   }
 
   return (
     <div className="App">
+
+      {console.log(genericTaskState)}
 
       <GenericTaskContext.Provider
         value={{ genericTaskState: genericTaskState, genericTaskDispatch: genericTaskDispatch }}

@@ -1,11 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Button, ButtonToggle, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table } from 'reactstrap'
 import { GenericTaskContext } from '../App'
+import { FcAddRow } from "react-icons/fc";
+import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
+import GenericTaskOperationsModal from './GenericTaskOperationsModals';
+import { MODAL_OPERATION } from './GenericTaskOperationsModals';
+import { BrowserRouter } from 'react-router-dom';
 
 export const GENERIC_STATUS = {
   NOT_STARTED: 'Not Started',
   UNDERWAY: 'Underway',
   COMPLETED: 'Completed'
+}
+
+export const GENERIC_PRIORITY = {
+  LOW: 'Low',
+  MODERATE: 'Moderate',
+  HIGH: 'High'
 }
 
 function GenericTaskComponent(props) {
@@ -27,22 +38,48 @@ function GenericTaskComponent(props) {
 
   return (
     <React.Fragment>
-      <Table hover>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Task</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {renderGenericTasks()}
-        </tbody>
-      </Table>
 
-    </React.Fragment>
+      <Switch>
+
+        <Table hover style={{
+          textAlign: "center"
+        }}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Task</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {renderGenericTasks()}
+            <tr>
+              <td>
+
+                <Link to="/add">
+                  <Button color='none'>
+                    <FcAddRow fontSize={42} />
+                  </Button>
+                </Link>
+
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+
+        <Route path="/add" exact render={
+          (props) => (
+            <GenericTaskOperationsModal
+              {...props}
+              modalOperation={MODAL_OPERATION.ADD_MODAL}
+            />
+          )
+        } />
+
+      </Switch>
+    </React.Fragment >
   )
 }
 
@@ -121,6 +158,5 @@ function GenericTaskEntry(props) {
   )
 
 }
-
 
 export default GenericTaskComponent;

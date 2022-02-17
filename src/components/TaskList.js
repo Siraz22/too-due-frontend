@@ -23,7 +23,6 @@ function TaskList() {
       </Dropdown>
 
       <div style={{
-        textAlign: "center",
         paddingTop: "10px"
       }}>
         <GenericTaskComponent />
