@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, ButtonToggle, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table } from 'reactstrap'
 import { GenericTaskContext } from '../App'
 import { FcAddRow } from "react-icons/fc";
 import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 import GenericTaskOperationsModal from './GenericTaskOperationsModals';
 import { MODAL_OPERATION } from './GenericTaskOperationsModals';
-import { BrowserRouter } from 'react-router-dom';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 
 export const GENERIC_STATUS = {
   NOT_STARTED: 'Not Started',
@@ -77,7 +77,23 @@ function GenericTaskComponent(props) {
             />
           )
         } />
-
+        <Route path="/delete/:id" exact render={
+          (props) => (
+            <GenericTaskOperationsModal
+              {...props}
+              modalOperation={MODAL_OPERATION.DELETE_MODAL}
+            />
+          )
+        }
+        />
+        <Route path="/edit/:id" exact render={
+          (props) => (
+            <GenericTaskOperationsModal
+              {...props}
+              modalOperation={MODAL_OPERATION.EDIT_MODAL}
+            />
+          )
+        } />
       </Switch>
     </React.Fragment >
   )
@@ -86,7 +102,7 @@ function GenericTaskComponent(props) {
 //This represents each entry with it's own local variables
 function GenericTaskEntry(props) {
 
-  const { task, priority, status } = props.taskEntry
+  const { id, task, priority, status } = props.taskEntry
   const [genericTaskDropdownOpen, setStatusToggle] = useState()
   const [genericTaskValue, setStatusValue] = useState(status)
   const [completionBool, toggleCompletion] = useState(false)
@@ -145,6 +161,28 @@ function GenericTaskEntry(props) {
     )
   }
 
+  function ActionButtons() {
+    return (
+      <React.Fragment>
+
+        <Link to={{
+          pathname: `delete/${id}`,
+          taskEntry: { ...props.taskEntry }
+        }}>
+          <i><FaTrashAlt color="maroon" fontSize={20} /></i>
+        </Link>{' '}
+
+        <Link to={{
+          pathname: `edit/${id}`,
+          taskEntry: { ...props.taskEntry }
+        }}>
+          <i><FaEdit color="gray" fontSize={20} /></i>
+        </Link>
+
+      </React.Fragment >
+    )
+  }
+
   return (
     <React.Fragment>
       <tr>
@@ -152,7 +190,7 @@ function GenericTaskEntry(props) {
         <td className="align-middle">{task}</td>
         <td className="align-middle"><Priority /></td>
         <td className="align-middle"><Status /></td>
-        <td className="align-middle">0%</td>
+        <td className="align-middle"><ActionButtons /></td>
       </tr>
     </React.Fragment>
   )

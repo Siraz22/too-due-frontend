@@ -19,17 +19,34 @@ function App() {
 
   const [genericTaskState, genericTaskDispatch] = useReducer(genericTaskReducer, tempData)
 
+  function addGenericTask(taskStatePassed, payloadPassed) {
+    return [...taskStatePassed, payloadPassed]
+  }
+
+  function deleteGenericTask(taskStatePassed, id) {
+    const newGenericTasks = taskStatePassed.filter((task) => {
+      return task.id != id
+    })
+    return newGenericTasks
+  }
+
+  function updateGenericTask(taskStatePassed, payloadPassed) {
+
+    return taskStatePassed.map((task) => {
+      return task.id === payloadPassed.id ? payloadPassed : task
+    })
+  }
+
   function genericTaskReducer(taskState, action) {
     switch (action.type) {
-      case GENERIC_TASK_ACTIONS.POST: return [...taskState, action.payload]
-      case GENERIC_TASK_ACTIONS.GET: return genericTaskState;
+      case GENERIC_TASK_ACTIONS.POST: return addGenericTask(taskState, action.payload)
+      case GENERIC_TASK_ACTIONS.DELETE: return deleteGenericTask(taskState, action.payload);
+      case GENERIC_TASK_ACTIONS.PUT: return updateGenericTask(taskState, action.payload)
     }
   }
 
   return (
     <div className="App">
-
-      {console.log(genericTaskState)}
 
       <GenericTaskContext.Provider
         value={{ genericTaskState: genericTaskState, genericTaskDispatch: genericTaskDispatch }}
