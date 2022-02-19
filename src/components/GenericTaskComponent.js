@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Button, ButtonToggle, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table } from 'reactstrap'
-import { GenericTaskContext } from '../App'
+import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../App'
 import { FcAddRow } from "react-icons/fc";
 import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 import GenericTaskOperationsModal from './GenericTaskOperationsModals';
@@ -108,8 +108,10 @@ function GenericTaskEntry(props) {
   const [completionBool, toggleCompletion] = useState(false)
 
   function DoneButton() {
-    function doneToggle() {
 
+    const genericTaskContext = useContext(GenericTaskContext)
+
+    function doneToggle() {
       //NOTE : any changes done to the useState variables will not be updated till this function ends
       //hence value of completionBool stays false even if updated with toggleCompletion.
       //It's updated once this local function ends
@@ -125,6 +127,22 @@ function GenericTaskEntry(props) {
       else {
         setStatusValue(GENERIC_STATUS.NOT_STARTED)
       }
+
+      const completedTask = {
+        id: props.taskEntry.id,
+        priority: props.taskEntry.priority,
+        status: GENERIC_STATUS.COMPLETED,
+        task: props.taskEntry.task
+      }
+
+      //PUT API call to the taskContext
+      genericTaskContext.genericTaskDispatch(
+        {
+          type: GENERIC_TASK_ACTIONS.PUT,
+          payload: completedTask
+        }
+      )
+
     }
 
     return (

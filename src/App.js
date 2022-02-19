@@ -4,7 +4,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import TaskList from './components/TaskList';
 import tempData from './components/temp_axiosJSON';
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useReducer } from 'react';
+import { Button } from 'reactstrap';
 
 export const GENERIC_TASK_ACTIONS = {
   POST: 'add',
@@ -45,9 +46,12 @@ function App() {
     }
   }
 
+  function showLogs() {
+    console.log(genericTaskState);
+  }
+
   return (
     <div className="App">
-
       <GenericTaskContext.Provider
         value={{ genericTaskState: genericTaskState, genericTaskDispatch: genericTaskDispatch }}
       >
@@ -55,8 +59,10 @@ function App() {
         <div className="container">
           <TaskList></TaskList>
         </div>
+        <Button onClick={showLogs}>Click for logs</Button>
         <Footer />
       </GenericTaskContext.Provider>
+
     </div>
   );
 }
