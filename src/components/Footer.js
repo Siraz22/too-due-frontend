@@ -59,6 +59,10 @@ function Footer() {
                   <a className="nav-link" href="/">
                     <FcQuestions fontSize={22} /> Want to copy?</a>
                 </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="https://too-due-backend.herokuapp.com/react-api/genericTask/getTasks">
+                    <FcQuestions fontSize={22} /> API calls</a>
+                </li>
               </ul>
             </div>
           </div>
