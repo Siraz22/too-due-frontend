@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, ButtonGroup, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap'
+import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap'
 import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../App'
 import { GENERIC_PRIORITY, GENERIC_STATUS } from './GenericTaskComponent'
 import { v4 as uuid } from 'uuid'
+import APIaxios from '../apiService/APIaxios'
 
 export const MODAL_OPERATION = {
   ADD_MODAL: 'add_modal',
@@ -24,17 +24,19 @@ function GenericTaskOperationsModal(props) {
     function onAdd() {
       const entry = {
         id: uuid(),
-        task: taskName,
+        taskName: taskName,
         priority: priority,
         status: status
       }
 
       // console.log(entry)
-      genericTaskContext.genericTaskDispatch(
-        {
-          type: GENERIC_TASK_ACTIONS.POST,
-          payload: entry
-        }
+      APIaxios.addGenericTask(entry).then((response) =>
+        genericTaskContext.genericTaskDispatch(
+          {
+            type: GENERIC_TASK_ACTIONS.POST,
+            payload: entry
+          }
+        )
       )
       closeModal();
     }
@@ -98,11 +100,14 @@ function GenericTaskOperationsModal(props) {
     }
 
     function onDelete() {
-      genericTaskContext.genericTaskDispatch(
-        {
-          type: GENERIC_TASK_ACTIONS.DELETE,
-          payload: taskToDelete.id
-        }
+
+      APIaxios.deleteGenericTask(taskToDelete.id).then(
+        genericTaskContext.genericTaskDispatch(
+          {
+            type: GENERIC_TASK_ACTIONS.DELETE,
+            payload: taskToDelete.id
+          }
+        )
       )
 
       closeModal();
@@ -114,7 +119,7 @@ function GenericTaskOperationsModal(props) {
         <ModalBody>
           <legend>Task Summary</legend>
           <ul>
-            <li><p style={{ marginBottom: "0rem" }}>{taskToDelete.task}</p></li>
+            <li><p style={{ marginBottom: "0rem" }}>{taskToDelete.taskName}</p></li>
             <li><p style={{ marginBottom: "0rem" }}>{taskToDelete.priority}</p></li>
             <li><p style={{ marginBottom: "0rem" }}>{taskToDelete.status}</p></li>
           </ul>
@@ -134,18 +139,19 @@ function GenericTaskOperationsModal(props) {
     function onEdit() {
       const entry = {
         id: taskToUpdate.id,
-        task: taskName,
+        taskName: taskName,
         priority: priority,
         status: status
       }
 
       // console.log(entry)
-      genericTaskContext.genericTaskDispatch(
-        {
-          type: GENERIC_TASK_ACTIONS.PUT,
-          payload: entry
-        }
-      )
+      APIaxios.updateGenericTask(entry.id, entry).then(
+        genericTaskContext.genericTaskDispatch(
+          {
+            type: GENERIC_TASK_ACTIONS.PUT,
+            payload: entry
+          }
+        ))
       closeModal();
     }
 
@@ -162,7 +168,7 @@ function GenericTaskOperationsModal(props) {
             <Form>
               <FormGroup>
                 <legend>Task Name</legend>
-                <Input placeholder={taskToUpdate.task}
+                <Input placeholder={taskToUpdate.taskName}
                   onChange={(e) => setTaskName(e.target.value)}>
                 </Input>
               </FormGroup>

@@ -7,7 +7,6 @@ import GenericTaskOperationsModal from './GenericTaskOperationsModals';
 import { MODAL_OPERATION } from './GenericTaskOperationsModals';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { useEffect } from 'react';
-import axios from 'axios';
 import APIaxios from '../apiService/APIaxios';
 
 export const GENERIC_STATUS = {
@@ -27,9 +26,6 @@ function GenericTaskComponent(props) {
   const genericTaskContext = useContext(GenericTaskContext)
 
   useEffect(() => {
-
-    console.log("Inside GenericTask useEffect")
-
     //use this to call the Get API call and update the state
     APIaxios.getGenericTasks().then((response) =>
       genericTaskContext.genericTaskDispatch({
@@ -123,45 +119,46 @@ function GenericTaskEntry(props) {
 
   const { id, taskName, priority, status } = props.taskEntry
   const [genericTaskDropdownOpen, setStatusToggle] = useState()
-  const [genericTaskValue, setStatusValue] = useState(status)
-  const [completionBool, toggleCompletion] = useState(false)
+  const [genericStatusValue, setStatusValue] = useState(status)
+  const [completionBool, setCompletionBool] = useState(status === GENERIC_STATUS.COMPLETED ? true : false)
 
   function DoneButton() {
 
     const genericTaskContext = useContext(GenericTaskContext)
 
     function doneToggle() {
+
+      setCompletionBool(prevState => !prevState)
+
+      //console.log(completionBool)
+
+      const taskBeingToggled = {
+        id: props.taskEntry.id,
+        priority: props.taskEntry.priority,
+        status: completionBool ? GENERIC_STATUS.NOT_STARTED : GENERIC_STATUS.COMPLETED,
+        taskName: props.taskEntry.taskName
+      }
+
+      setStatusValue(completionBool ? GENERIC_STATUS.NOT_STARTED : GENERIC_STATUS.COMPLETED)
+
+      //console.log(taskBeingToggled)
+
+      APIaxios.updateGenericTask(taskBeingToggled.id, taskBeingToggled).then(
+        genericTaskContext.genericTaskDispatch(
+          {
+            type: GENERIC_TASK_ACTIONS.PUT,
+            payload: taskBeingToggled
+          }
+        )
+      )
+
       //NOTE : any changes done to the useState variables will not be updated till this function ends
       //hence value of completionBool stays false even if updated with toggleCompletion.
       //It's updated once this local function ends
 
-      toggleCompletion(prevState => !prevState)
-
       //To be able to use updated value of completion bool, instead of toggleCompletion(!completionBool),
       //it is advised to use functional passing method for state updation like toggleCompletion(prevState => !prevState)
       //Then, completionBool will be updated for consequent use
-      if (!completionBool) {
-        setStatusValue(GENERIC_STATUS.COMPLETED)
-      }
-      else {
-        setStatusValue(GENERIC_STATUS.NOT_STARTED)
-      }
-
-      const completedTask = {
-        id: props.taskEntry.id,
-        priority: props.taskEntry.priority,
-        status: GENERIC_STATUS.COMPLETED,
-        taskName: props.taskEntry.task
-      }
-
-      //PUT API call to the taskContext
-      genericTaskContext.genericTaskDispatch(
-        {
-          type: GENERIC_TASK_ACTIONS.PUT,
-          payload: completedTask
-        }
-      )
-
     }
 
     return (
@@ -186,7 +183,7 @@ function GenericTaskEntry(props) {
       <React.Fragment>
         <Dropdown isOpen={genericTaskDropdownOpen} toggle={() => setStatusToggle(!genericTaskDropdownOpen)}>
           <DropdownToggle disabled={completionBool} color='success' caret>
-            {genericTaskValue}
+            {genericStatusValue}
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={(e) => setStatusValue(e.currentTarget.textContent)}>{GENERIC_STATUS.NOT_STARTED}</DropdownItem>
