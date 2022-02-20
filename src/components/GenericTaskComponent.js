@@ -6,6 +6,9 @@ import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 import GenericTaskOperationsModal from './GenericTaskOperationsModals';
 import { MODAL_OPERATION } from './GenericTaskOperationsModals';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
+import { useEffect } from 'react';
+import axios from 'axios';
+import APIaxios from '../apiService/APIaxios';
 
 export const GENERIC_STATUS = {
   NOT_STARTED: 'Not Started',
@@ -23,15 +26,31 @@ function GenericTaskComponent(props) {
 
   const genericTaskContext = useContext(GenericTaskContext)
 
+  useEffect(() => {
+
+    console.log("Inside GenericTask useEffect")
+
+    //use this to call the Get API call and update the state
+    APIaxios.getGenericTasks().then((response) =>
+      genericTaskContext.genericTaskDispatch({
+        type: GENERIC_TASK_ACTIONS.GET,
+        payload: response.data
+      })
+    )
+  }, [])
+
   function renderGenericTasks() {
 
-    let tempTaskList = genericTaskContext.genericTaskState.map((genericTask) => {
-      return (
-        <React.Fragment key={genericTask.id}>
-          <GenericTaskEntry taskEntry={genericTask} />
-        </React.Fragment>
-      )
-    })
+    let tempTaskList = [];
+    if (genericTaskContext.genericTaskState.length > 0) {
+      tempTaskList = genericTaskContext.genericTaskState.map((genericTask) => {
+        return (
+          <React.Fragment key={genericTask.id}>
+            <GenericTaskEntry taskEntry={genericTask} />
+          </React.Fragment>
+        )
+      })
+    }
 
     return tempTaskList;
   }
@@ -102,7 +121,7 @@ function GenericTaskComponent(props) {
 //This represents each entry with it's own local variables
 function GenericTaskEntry(props) {
 
-  const { id, task, priority, status } = props.taskEntry
+  const { id, taskName, priority, status } = props.taskEntry
   const [genericTaskDropdownOpen, setStatusToggle] = useState()
   const [genericTaskValue, setStatusValue] = useState(status)
   const [completionBool, toggleCompletion] = useState(false)
@@ -132,7 +151,7 @@ function GenericTaskEntry(props) {
         id: props.taskEntry.id,
         priority: props.taskEntry.priority,
         status: GENERIC_STATUS.COMPLETED,
-        task: props.taskEntry.task
+        taskName: props.taskEntry.task
       }
 
       //PUT API call to the taskContext
@@ -205,7 +224,7 @@ function GenericTaskEntry(props) {
     <React.Fragment>
       <tr>
         <th className="align-middle"><DoneButton /></th>
-        <td className="align-middle">{task}</td>
+        <td className="align-middle">{taskName}</td>
         <td className="align-middle"><Priority /></td>
         <td className="align-middle"><Status /></td>
         <td className="align-middle"><ActionButtons /></td>
