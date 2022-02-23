@@ -25,11 +25,11 @@ function TaskList() {
       </div>
       <div className="col-4">
         <FaGithub fontSize={22} />{' '}
-        <text>Join to contribute and learn?</text>{' '}
+        <p style={{ marginBottom: "0" }}>Join to contribute and learn?</p>{' '}
 
         <a className="text-decoration-none" href="https://github.com/Siraz22/too-due-frontend">Frontend
         </a>
-        <text> or </text>
+        {' '}or{' '}
         <a className="text-decoration-none" href="https://github.com/Siraz22/too-due-backend">Backend
         </a>
 

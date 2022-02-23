@@ -28,7 +28,15 @@ class APIaxios extends Component {
   }
 
   updateGenericTask = async (genericTaskId, genericTaskEntry) => {
-    //console.log("Called edit api")
+    console.log("Called edit api")
+
+    //NOTE LEARNING : response.data is an array of objects.
+    //But as soon as this async function ends, the contents are lost and response as well as
+    //response.data gets set to Promise datatype instead.
+
+    //states have to be set within async functions as of right now till i learn more
+    //by trial and error
+
     return await api.put(`/genericTask/updateTask/${genericTaskId}`, genericTaskEntry)
   }
 }

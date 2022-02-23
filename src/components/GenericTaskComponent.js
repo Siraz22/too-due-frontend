@@ -179,6 +179,28 @@ function GenericTaskEntry(props) {
   }
 
   function Status() {
+
+    const genericTaskContext = useContext(GenericTaskContext)
+
+    function changedStatus(statusPassed) {
+      const newTaskEntry = {
+        id: props.taskEntry.id,
+        taskName: props.taskEntry.taskName,
+        status: statusPassed,
+        priority: props.taskEntry.priority
+      }
+
+      //console.log(statusPassed)
+      setStatusValue(statusPassed)
+
+      APIaxios.updateGenericTask(props.taskEntry.id, newTaskEntry).then(
+        genericTaskContext.genericTaskDispatch({
+          type: GENERIC_TASK_ACTIONS.PUT,
+          payload: newTaskEntry
+        })
+      )
+    }
+
     return (
       <React.Fragment>
         <Dropdown isOpen={genericTaskDropdownOpen} toggle={() => setStatusToggle(!genericTaskDropdownOpen)}>
@@ -186,8 +208,12 @@ function GenericTaskEntry(props) {
             {genericStatusValue}
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem onClick={(e) => setStatusValue(e.currentTarget.textContent)}>{GENERIC_STATUS.NOT_STARTED}</DropdownItem>
-            <DropdownItem onClick={(e) => setStatusValue(e.currentTarget.textContent)}>{GENERIC_STATUS.UNDERWAY}</DropdownItem>
+            {/* <DropdownItem onClick={(e) => setStatusValue(e.currentTarget.textContent)}>{GENERIC_STATUS.NOT_STARTED}</DropdownItem>
+            <DropdownItem onClick={(e) => setStatusValue(e.currentTarget.textContent)}>{GENERIC_STATUS.UNDERWAY}</DropdownItem> */}
+
+            <DropdownItem onClick={(e) => changedStatus(e.currentTarget.textContent)}>{GENERIC_STATUS.NOT_STARTED}</DropdownItem>
+            <DropdownItem onClick={(e) => changedStatus(e.currentTarget.textContent)}>{GENERIC_STATUS.UNDERWAY}</DropdownItem>
+
             <DropdownItem disabled>{GENERIC_STATUS.COMPLETED}</DropdownItem>
           </DropdownMenu>
         </Dropdown>

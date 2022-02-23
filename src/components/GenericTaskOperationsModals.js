@@ -168,11 +168,12 @@ function GenericTaskOperationsModal(props) {
             <Form>
               <FormGroup>
                 <legend>Task Name</legend>
-                <Input placeholder={taskToUpdate.taskName}
+                <Input value={taskToUpdate.taskName}
                   onChange={(e) => setTaskName(e.target.value)}>
                 </Input>
               </FormGroup>
-              <FormGroup onClick={(e) => setPriority(e.target.id)}>
+              <FormGroup onClick={(e) => setPriority(e.target.id)}
+              >
                 <legend>Priority</legend>
                 <Label> <Input id={GENERIC_PRIORITY.LOW} type="radio" name="priority" /> {GENERIC_PRIORITY.LOW} </Label>
                 <br />

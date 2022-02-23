@@ -44,9 +44,9 @@ function App() {
     }
   }
 
-  // function showLogs() {
-  //   console.log(genericTaskState);
-  // }
+  function showLogs() {
+    console.log(genericTaskState);
+  }
 
   return (
     <div className="App">
@@ -58,7 +58,7 @@ function App() {
         <div className="container">
           <TaskList></TaskList>
         </div>
-
+        <Button onClick={showLogs} >Show Logs</Button>
         <Footer />
       </GenericTaskContext.Provider>
     </div>
