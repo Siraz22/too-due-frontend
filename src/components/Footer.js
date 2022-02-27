@@ -28,8 +28,9 @@ function Footer() {
 
     <React.Fragment>
 
-      <div style={phantomStyle}></div>
-      <div style={footerStyle} className="footer">
+      {/* <div style={phantomStyle}></div> */}
+      {/* <div style={footerStyle} className="footer"> */}
+      <div className="footer">
         <div className="container">
           <div className="row-grid align-items-center mb-3 row">
             <div className="col-sm-7">

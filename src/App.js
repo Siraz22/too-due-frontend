@@ -58,7 +58,7 @@ function App() {
         <div className="container">
           <TaskList></TaskList>
         </div>
-        <Button onClick={showLogs} >Show Logs</Button>
+        {/* <Button onClick={showLogs} >Show Logs</Button> */}
         <Footer />
       </GenericTaskContext.Provider>
     </div>
