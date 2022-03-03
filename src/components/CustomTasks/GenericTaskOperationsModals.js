@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
 import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap'
-import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../App'
+import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../../App'
 import { GENERIC_PRIORITY, GENERIC_STATUS } from './GenericTaskComponent'
 import { v4 as uuid } from 'uuid'
-import APIaxios from '../apiService/APIaxios'
+import APIaxios from '../../apiService/APIaxios'
 
 export const MODAL_OPERATION = {
   ADD_MODAL: 'add_modal',

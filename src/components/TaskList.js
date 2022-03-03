@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import GenericTaskComponent from './GenericTaskComponent'
+import GenericTaskComponent from './CustomTasks/GenericTaskComponent'
 import { FaGithub } from 'react-icons/fa'
 
 function TaskList() {

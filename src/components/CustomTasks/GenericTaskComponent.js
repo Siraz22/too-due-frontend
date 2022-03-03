@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { Button, ButtonToggle, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table } from 'reactstrap'
-import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../App'
+import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../../App'
 import { FcAddRow } from "react-icons/fc";
 import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 import GenericTaskOperationsModal from './GenericTaskOperationsModals';
 import { MODAL_OPERATION } from './GenericTaskOperationsModals';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { useEffect } from 'react';
-import APIaxios from '../apiService/APIaxios';
+import APIaxios from '../../apiService/APIaxios';
 
 export const GENERIC_STATUS = {
   NOT_STARTED: 'Not Started',
