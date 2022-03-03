@@ -56,33 +56,35 @@ function GenericTaskComponent(props) {
 
       <Switch>
 
-        <Table hover style={{
-          textAlign: "center"
-        }}>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Task</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderGenericTasks()}
-            <tr>
-              <td>
+        <div className="table-responsive">
+          <Table hover style={{
+            textAlign: "center"
+          }}>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Task</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renderGenericTasks()}
+              <tr>
+                <td>
 
-                <Link to="/add">
-                  <Button color='none'>
-                    <FcAddRow fontSize={42} />
-                  </Button>
-                </Link>
+                  <Link to="/add">
+                    <Button color='none'>
+                      <FcAddRow fontSize={42} />
+                    </Button>
+                  </Link>
 
-              </td>
-            </tr>
-          </tbody>
-        </Table>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
 
         <Route path="/add" exact render={
           (props) => (
