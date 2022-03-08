@@ -16,11 +16,20 @@ export const GENERIC_TASK_ACTIONS = {
   GET: 'get'
 }
 
+export const INTERVIEWBIT_TASK_ACTIONS = {
+  POST: 'add',
+  DELETE: 'delete',
+  PUT: 'put',
+  GET: 'get'
+}
+
 export const GenericTaskContext = createContext();
+export const InterviewbitTaskContext = createContext();
 
 function App() {
 
   const [genericTaskState, genericTaskDispatch] = useReducer(genericTaskReducer, [])
+  const [interviewbitTaskState, interviewbitTaskDispatch] = useReducer(interviewbitTaskReducer, [])
 
   function deleteGenericTask(taskStatePassed, id) {
     const newGenericTasks = taskStatePassed.filter((task) => {
@@ -44,6 +53,12 @@ function App() {
     }
   }
 
+  function interviewbitTaskReducer(taskState, action) {
+    switch (action.type) {
+      case INTERVIEWBIT_TASK_ACTIONS.GET: return action.payload;
+    }
+  }
+
   function showLogs() {
     console.log(genericTaskState);
   }
@@ -53,13 +68,21 @@ function App() {
       <GenericTaskContext.Provider
         value={{ genericTaskState: genericTaskState, genericTaskDispatch: genericTaskDispatch }}
       >
+        <InterviewbitTaskContext.Provider
+          value={{ interviewbitTaskState: interviewbitTaskState, interviewbitTaskDispatch: interviewbitTaskDispatch }}
+        >
 
-        <Header />
-        <div className="container">
-          <TaskList></TaskList>
-        </div>
-        {/* <Button onClick={showLogs} >Show Logs</Button> */}
-        <Footer />
+
+          <Header />
+          <div className="container">
+            <TaskList></TaskList>
+          </div>
+          {/* <Button onClick={showLogs} >Show Logs</Button> */}
+          <Footer />
+
+
+
+        </InterviewbitTaskContext.Provider>
       </GenericTaskContext.Provider>
     </div>
   );
