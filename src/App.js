@@ -56,11 +56,13 @@ function App() {
   function interviewbitTaskReducer(taskState, action) {
     switch (action.type) {
       case INTERVIEWBIT_TASK_ACTIONS.GET: return action.payload;
+      case INTERVIEWBIT_TASK_ACTIONS.POST: return [...taskState, action.payload];
     }
   }
 
   function showLogs() {
-    console.log(genericTaskState);
+    //console.log(genericTaskState);
+    console.log(interviewbitTaskState);
   }
 
   return (
@@ -77,7 +79,7 @@ function App() {
           <div className="container">
             <TaskList></TaskList>
           </div>
-          {/* <Button onClick={showLogs} >Show Logs</Button> */}
+          <Button onClick={showLogs} >Show Logs</Button>
           <Footer />
 
 

@@ -9,6 +9,10 @@ const api = axios.create({
 
 class APIaxios extends Component {
 
+  getInterviewbitTasks = async () => {
+    return await api.get("/interviewbitTask/getTasks");
+  }
+
   getGenericTasks = async () => {
     //NOTE LEARNING : response.data is an array of objects.
     //But as soon as this async function ends, the contents are lost and response as well as

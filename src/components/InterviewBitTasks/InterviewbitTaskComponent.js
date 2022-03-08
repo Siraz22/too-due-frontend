@@ -2,7 +2,9 @@ import react from 'react'
 import React from 'react'
 import { useContext, useEffect } from 'react'
 import { Table } from 'reactstrap'
-import { InterviewbitTaskContext } from '../../App';
+import APIaxios from '../../apiService/APIaxios';
+import { InterviewbitTaskContext, INTERVIEWBIT_TASK_ACTIONS } from '../../App';
+
 
 function InterviewbitTaskComponent() {
 
@@ -10,12 +12,12 @@ function InterviewbitTaskComponent() {
 
   useEffect(() => {
     //use this to call the Get API call and update the state
-    // APIaxios.getGenericTasks().then((response) =>
-    //   genericTaskContext.genericTaskDispatch({
-    //     type: GENERIC_TASK_ACTIONS.GET,
-    //     payload: response.data
-    //   })
-    // )
+    APIaxios.getInterviewbitTasks().then((response) =>
+      interviewbitTaskContext.interviewbitTaskDispatch({
+        type: INTERVIEWBIT_TASK_ACTIONS.GET,
+        payload: response.data
+      })
+    )
   }, [])
 
   function renderInterviewbitTasks() {
@@ -29,8 +31,10 @@ function InterviewbitTaskComponent() {
         )
       })
     }
-
+    console.log(tempTaskList);
     return tempTaskList;
+
+    console.log(interviewbitTaskContext.interviewbitTaskState);
   }
 
   return (
@@ -46,6 +50,9 @@ function InterviewbitTaskComponent() {
               <th>Notes</th>
               <th>Actions</th>
             </tr>
+
+          </thead>
+          <tbody>
             <tr>
               <td>Sample</td>
               <td>Sample Ques</td>
@@ -54,43 +61,48 @@ function InterviewbitTaskComponent() {
               <td>Sample Note</td>
               <td>Buttons</td>
             </tr>
-          </thead>
+            {renderInterviewbitTasks()}
+          </tbody>
         </Table>
       </div>
     </react.Fragment >
   )
 
   function InterviewbitTaskEntry(props) {
-    const [id, question, difficulty, link, notes] = props.taskEntry
+    console.log(props)
+    const { id, question, difficulty, link, notes } = props.taskEntry
 
     function DoneButton() {
-
+      return "Done Button"
     }
 
     function Question() {
-
+      return question
     }
 
     function Difficulty() {
-
+      return difficulty
     }
 
     function Link() {
-
+      return <a href={"http://" + link}>Sample link to Google</a>
     }
 
     function Notes() {
-
+      return notes
     }
 
     return (
       <React.Fragment>
         <tr>
-          <th className="align-middle"></th>
+          <td className="align-middle"><DoneButton /></td>
+          <td className="align-middle"><Question /></td>
+          <td className="align-middle"><Difficulty /></td>
+          <td className="align-middle"><Link /></td>
+          <td className="align-middle"><Notes /></td>
         </tr>
       </React.Fragment>
     )
-
   }
 
 }
