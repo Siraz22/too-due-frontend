@@ -48,6 +48,7 @@ function TaskList() {
         <div style={{
           paddingTop: "30px"
         }}>
+
           <Route exact path="/">
             <GenericTaskComponent />
           </Route>

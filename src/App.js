@@ -53,10 +53,27 @@ function App() {
     }
   }
 
+  function deleteInterviewbitTask(taskStatePassed, id) {
+    const newInterviewbitTasks = taskStatePassed.filter((task) => {
+      return task.id !== id
+    })
+    return newInterviewbitTasks
+  }
+
+  function updateInterviewbitTask(taskStatePassed, payloadPassed) {
+    // console.log("Putting");
+    // console.log(payloadPassed);
+    return taskStatePassed.map((task) => {
+      return task.id === payloadPassed.id ? payloadPassed : task
+    })
+  }
+
   function interviewbitTaskReducer(taskState, action) {
     switch (action.type) {
-      case INTERVIEWBIT_TASK_ACTIONS.GET: return action.payload;
       case INTERVIEWBIT_TASK_ACTIONS.POST: return [...taskState, action.payload];
+      case INTERVIEWBIT_TASK_ACTIONS.DELETE: return deleteInterviewbitTask(taskState, action.payload);
+      case INTERVIEWBIT_TASK_ACTIONS.PUT: return updateInterviewbitTask(taskState, action.payload);
+      case INTERVIEWBIT_TASK_ACTIONS.GET: return action.payload;
     }
   }
 
@@ -91,3 +108,4 @@ function App() {
 }
 
 export default App;
+

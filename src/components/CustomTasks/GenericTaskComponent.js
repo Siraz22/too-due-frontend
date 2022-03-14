@@ -132,8 +132,6 @@ function GenericTaskEntry(props) {
 
       setCompletionBool(prevState => !prevState)
 
-      //console.log(completionBool)
-
       const taskBeingToggled = {
         id: props.taskEntry.id,
         priority: props.taskEntry.priority,
