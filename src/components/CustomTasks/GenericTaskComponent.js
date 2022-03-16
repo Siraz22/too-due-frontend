@@ -171,9 +171,24 @@ function GenericTaskEntry(props) {
   }
 
   function Priority() {
+
+    const [color, setColor] = useState('info')
+
+    function fetchColor(passedPriority) {
+      console.log(passedPriority)
+      if (passedPriority === GENERIC_PRIORITY.HIGH) setColor("danger");
+      else if (passedPriority === GENERIC_PRIORITY.MODERATE) setColor("warning");
+      else setColor("info");
+    }
+
+    useEffect(() => {
+      fetchColor(priority);
+    }, [])
+    //fetchColor(priority);
+
     return (
       <React.Fragment>
-        <Button color="danger">{priority}</Button>
+        <Button color={color}>{priority}</Button>
       </React.Fragment>
     )
   }
