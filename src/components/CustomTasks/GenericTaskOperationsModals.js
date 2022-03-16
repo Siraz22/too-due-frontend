@@ -17,9 +17,9 @@ function GenericTaskOperationsModal(props) {
 
   function AddModal() {
 
-    const [taskName, setTaskName] = useState()
-    const [priority, setPriority] = useState()
-    const [status, setStatus] = useState()
+    const [taskName, setTaskName] = useState('Unnamed Task')
+    const [priority, setPriority] = useState(GENERIC_PRIORITY.LOW)
+    const [status, setStatus] = useState(GENERIC_STATUS.NOT_STARTED)
 
     function onAdd() {
       const entry = {
@@ -60,7 +60,7 @@ function GenericTaskOperationsModal(props) {
               </FormGroup>
               <FormGroup onClick={(e) => setPriority(e.target.id)}>
                 <legend>Priority</legend>
-                <Label> <Input id={GENERIC_PRIORITY.LOW} type="radio" name="priority" /> {GENERIC_PRIORITY.LOW} </Label>
+                <Label> <Input id={GENERIC_PRIORITY.LOW} defaultChecked={true} type="radio" name="priority" /> {GENERIC_PRIORITY.LOW} </Label>
                 <br />
                 <Label> <Input id={GENERIC_PRIORITY.MODERATE} type="radio" name="priority" /> {GENERIC_PRIORITY.MODERATE} </Label>
                 <br />
@@ -131,10 +131,11 @@ function GenericTaskOperationsModal(props) {
   }
 
   function EditModal() {
-    const [taskName, setTaskName] = useState()
-    const [priority, setPriority] = useState()
-    const [status, setStatus] = useState()
     const taskToUpdate = props.location.taskEntry
+
+    const [taskName, setTaskName] = useState(taskToUpdate.taskName)
+    const [priority, setPriority] = useState(taskToUpdate.priority)
+    const [status, setStatus] = useState(taskToUpdate.status)
 
     function onEdit() {
       const entry = {
@@ -168,20 +169,28 @@ function GenericTaskOperationsModal(props) {
             <Form>
               <FormGroup>
                 <legend>Task Name</legend>
-                <Input value={taskToUpdate.taskName}
+                <Input value={taskName}
                   onChange={(e) => setTaskName(e.target.value)}>
                 </Input>
               </FormGroup>
+
               <FormGroup onClick={(e) => setPriority(e.target.id)}
               >
                 <legend>Priority</legend>
-                <Label> <Input id={GENERIC_PRIORITY.LOW} type="radio" name="priority" /> {GENERIC_PRIORITY.LOW} </Label>
+                <Label> <Input id={GENERIC_PRIORITY.LOW}
+                  defaultChecked={priority === GENERIC_PRIORITY.LOW ? true : false}
+                  type="radio" name="priority" /> {GENERIC_PRIORITY.LOW} </Label>
                 <br />
-                <Label> <Input id={GENERIC_PRIORITY.MODERATE} type="radio" name="priority" /> {GENERIC_PRIORITY.MODERATE} </Label>
+                <Label> <Input id={GENERIC_PRIORITY.MODERATE}
+                  defaultChecked={priority === GENERIC_PRIORITY.MODERATE ? true : false}
+                  type="radio" name="priority" /> {GENERIC_PRIORITY.MODERATE} </Label>
                 <br />
-                <Label> <Input id={GENERIC_PRIORITY.HIGH} type="radio" name="priority" /> {GENERIC_PRIORITY.HIGH} </Label>
+                <Label> <Input id={GENERIC_PRIORITY.HIGH}
+                  defaultChecked={priority === GENERIC_PRIORITY.HIGH ? true : false}
+                  type="radio" name="priority" /> {GENERIC_PRIORITY.HIGH} </Label>
               </FormGroup>
-              <FormGroup >
+
+              {/* <FormGroup >
                 <legend>Status</legend>
                 <FormGroup onClick={(e) => setStatus(e.target.value)}>
                   <Input type="select">
@@ -190,7 +199,8 @@ function GenericTaskOperationsModal(props) {
                     <option disabled={true}>{GENERIC_STATUS.COMPLETED}</option>
                   </Input>
                 </FormGroup>
-              </FormGroup>
+              </FormGroup> */}
+
               <Button color="success" onClick={onEdit}>
                 Edit
               </Button>
