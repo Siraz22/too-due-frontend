@@ -172,10 +172,10 @@ function GenericTaskEntry(props) {
 
   function Priority() {
 
-    const [color, setColor] = useState('info')
+    const [color, setColor] = useState()
 
     function fetchColor(passedPriority) {
-      console.log(passedPriority)
+      //console.log(passedPriority)
       if (passedPriority === GENERIC_PRIORITY.HIGH) setColor("danger");
       else if (passedPriority === GENERIC_PRIORITY.MODERATE) setColor("warning");
       else setColor("info");
@@ -196,6 +196,18 @@ function GenericTaskEntry(props) {
   function Status() {
 
     const genericTaskContext = useContext(GenericTaskContext)
+    const [color, setColor] = useState()
+
+    function fetchColor(passedStatus) {
+      //console.log(passedPriority)
+      if (passedStatus === GENERIC_STATUS.NOT_STARTED) setColor("secondary");
+      else if (passedStatus === GENERIC_STATUS.UNDERWAY) setColor("warning");
+      else setColor("success");
+    }
+
+    useEffect(() => {
+      fetchColor(status);
+    }, [])
 
     function changedStatus(statusPassed) {
       const newTaskEntry = {
@@ -219,7 +231,7 @@ function GenericTaskEntry(props) {
     return (
       <React.Fragment>
         <Dropdown isOpen={genericTaskDropdownOpen} toggle={() => setStatusToggle(!genericTaskDropdownOpen)}>
-          <DropdownToggle disabled={completionBool} color='success' caret>
+          <DropdownToggle disabled={completionBool} color={color} caret>
             {genericStatusValue}
           </DropdownToggle>
           <DropdownMenu>
