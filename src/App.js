@@ -5,7 +5,6 @@ import Footer from './components/Footer';
 import TaskList from './components/TaskList';
 import { createContext, useReducer } from 'react';
 import { Button } from 'reactstrap';
-import APIaxios from './apiService/APIaxios';
 
 export const GENERIC_TASK_ACTIONS = {
   POST: 'add',

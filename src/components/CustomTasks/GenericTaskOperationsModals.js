@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap'
+import { Button, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap'
 import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../../App'
 import { GENERIC_PRIORITY, GENERIC_STATUS } from './GenericTaskComponent'
 import { v4 as uuid } from 'uuid'
@@ -17,7 +17,7 @@ function GenericTaskOperationsModal(props) {
 
   function AddModal() {
 
-    const [taskName, setTaskName] = useState('Unnamed Task')
+    const [taskName, setTaskName] = useState('')
     const [priority, setPriority] = useState(GENERIC_PRIORITY.LOW)
     const [status, setStatus] = useState(GENERIC_STATUS.NOT_STARTED)
 
@@ -55,8 +55,11 @@ function GenericTaskOperationsModal(props) {
               <FormGroup>
                 <legend>Task Name</legend>
                 <Input placeholder='A summary of your task'
+                  valid={taskName === '' ? false : true}
+                  invalid={taskName === '' ? true : false}
                   onChange={(e) => setTaskName(e.target.value)}>
                 </Input>
+                <FormFeedback invalid>Task should have a name</FormFeedback>
               </FormGroup>
               <FormGroup onClick={(e) => setPriority(e.target.id)}>
                 <legend>Priority</legend>
@@ -76,7 +79,9 @@ function GenericTaskOperationsModal(props) {
                   </Input>
                 </FormGroup>
               </FormGroup>
-              <Button color="success" onClick={onAdd}>
+              <Button color="success"
+                disabled={taskName === '' ? true : false}
+                onClick={onAdd}>
                 Add
               </Button>
               {' '}
@@ -170,8 +175,12 @@ function GenericTaskOperationsModal(props) {
               <FormGroup>
                 <legend>Task Name</legend>
                 <Input value={taskName}
+                  valid={taskName === '' ? false : true}
+                  invalid={taskName === '' ? true : false}
                   onChange={(e) => setTaskName(e.target.value)}>
                 </Input>
+                <FormFeedback invalid>Task should have a name</FormFeedback>
+
               </FormGroup>
 
               <FormGroup onClick={(e) => setPriority(e.target.id)}
@@ -201,7 +210,9 @@ function GenericTaskOperationsModal(props) {
                 </FormGroup>
               </FormGroup> */}
 
-              <Button color="success" onClick={onEdit}>
+              <Button color="success" onClick={onEdit}
+                disabled={taskName === '' ? true : false}
+              >
                 Edit
               </Button>
               {' '}

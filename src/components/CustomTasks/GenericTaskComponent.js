@@ -8,6 +8,7 @@ import { MODAL_OPERATION } from './GenericTaskOperationsModals';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { useEffect } from 'react';
 import APIaxios from '../../apiService/APIaxios';
+import { FcCollapse, FcExpand } from 'react-icons/fc'
 
 export const GENERIC_STATUS = {
   NOT_STARTED: 'Not Started',
@@ -24,6 +25,9 @@ export const GENERIC_PRIORITY = {
 function GenericTaskComponent(props) {
 
   const genericTaskContext = useContext(GenericTaskContext)
+  const [sortingString, setSortingString] = useState('name')
+  const [ascendingSort, setSortingOrder] = useState(false)
+  let sortedTaskList = [];
 
   useEffect(() => {
     //use this to call the Get API call and update the state
@@ -38,8 +42,57 @@ function GenericTaskComponent(props) {
   function renderGenericTasks() {
 
     let tempTaskList = [];
+
     if (genericTaskContext.genericTaskState.length > 0) {
-      tempTaskList = genericTaskContext.genericTaskState.map((genericTask) => {
+
+      sortedTaskList = [...genericTaskContext.genericTaskState]
+      //console.log(sortedTaskList);
+
+      if (sortingString === 'name') {
+        sortedTaskList.sort((task1, task2) => {
+          if (task1.taskName < task2.taskName) {
+            return -1 * (ascendingSort === true ? 1 : -1);
+          }
+          if (task1.taskName > task2.taskName) {
+            return 1 * (ascendingSort === true ? 1 : -1);
+          }
+          return 0;
+        })
+      }
+      else if (sortingString === 'priority') {
+
+        let arr = [GENERIC_PRIORITY.LOW, GENERIC_PRIORITY.MODERATE, GENERIC_PRIORITY.HIGH];
+
+        sortedTaskList.sort((task1, task2) => {
+          if (arr.indexOf(task1.priority) < arr.indexOf(task2.priority)) {
+            return -1 * (ascendingSort === true ? 1 : -1);
+          }
+          if (arr.indexOf(task1.priority) > arr.indexOf(task2.priority)) {
+            return 1 * (ascendingSort === true ? 1 : -1);
+          }
+          return 0;
+        })
+
+        //console.log(arr.indexOf("Low"));
+      }
+      else if (sortingString === 'status') {
+
+        let arr = [GENERIC_STATUS.NOT_STARTED, GENERIC_STATUS.UNDERWAY, GENERIC_STATUS.COMPLETED];
+
+        sortedTaskList.sort((task1, task2) => {
+          if (arr.indexOf(task1.status) < arr.indexOf(task2.status)) {
+            return -1 * (ascendingSort === true ? 1 : -1);
+          }
+          if (arr.indexOf(task1.status) > arr.indexOf(task2.status)) {
+            return 1 * (ascendingSort === true ? 1 : -1);
+          }
+          return 0;
+        })
+      }
+
+      //console.log(sortedTaskList);
+
+      tempTaskList = sortedTaskList.map((genericTask) => {
         return (
           <React.Fragment key={genericTask.id}>
             <GenericTaskEntry taskEntry={genericTask} />
@@ -63,9 +116,22 @@ function GenericTaskComponent(props) {
             <thead>
               <tr>
                 <th></th>
-                <th>Task</th>
-                <th>Priority</th>
-                <th>Status</th>
+
+                <th><Button color='none' onClick={() => {
+                  setSortingString('name');
+                  setSortingOrder(prevState => !prevState);
+                }}>Task {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+
+                <th><Button color='none' onClick={() => {
+                  setSortingString('priority');
+                  setSortingOrder(prevState => !prevState);
+                }}>Priority {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+
+                <th><Button color='none' onClick={() => {
+                  setSortingString('status');
+                  setSortingOrder(prevState => !prevState);
+                }}>Status {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+
                 <th>Actions</th>
               </tr>
             </thead>
