@@ -1,7 +1,7 @@
 import react from 'react'
 import React from 'react'
 import { useContext, useEffect, useState, useRef } from 'react'
-import { ButtonToggle, Button, Table } from 'reactstrap'
+import { ButtonToggle, Button, Table, FormFeedback } from 'reactstrap'
 import APIaxios from '../../apiService/APIaxios';
 import { InterviewbitTaskContext, INTERVIEWBIT_TASK_ACTIONS } from '../../App';
 import { FaTrashAlt } from 'react-icons/fa'
@@ -9,6 +9,8 @@ import { FcAddRow } from 'react-icons/fc'
 import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 import InterviewbitTaskOperationsModal from './InterviewbitTaskOperationsModal';
 import { MODAL_OPERATION } from '../CustomTasks/GenericTaskOperationsModals';
+import { Overlay, OverlayTrigger } from 'react-bootstrap';
+import { Tooltip } from 'bootstrap';
 
 function InterviewbitTaskComponent() {
 
@@ -98,7 +100,7 @@ function InterviewbitTaskEntry(props) {
 
   const { id, question, difficulty, link, notes, completed } = props.taskEntry
   const [completionBool, setCompletionBool] = useState(completed);
-  // const [entryNotes, setNotes] = useState(notes);
+
   const inputRef = useRef()
 
   function DoneButton() {
@@ -142,51 +144,107 @@ function InterviewbitTaskEntry(props) {
   function Question() {
     return (
       <React.Fragment>
-        <a href={"http://" + link}>{question}</a>
+        <a href={link}>{question}</a>
       </React.Fragment>
     )
   }
 
   function Difficulty() {
-    return difficulty
+
+    const [color, setColor] = useState()
+
+    function fetchColor(passedDifficulty) {
+      if (passedDifficulty == "Very Easy") setColor("success");
+      else if (passedDifficulty == "Easy") setColor("success");
+      else if (passedDifficulty === "Medium") setColor("warning");
+      else setColor("danger");
+    }
+
+    useEffect(() => {
+      fetchColor(difficulty);
+    }, [])
+
+    return (
+      <Button color={color}>
+        {difficulty}
+      </Button>
+    )
   }
 
   function Notes() {
 
+    // useEffect(() => {
+    //   console.log("Called inside Notes");
+    //   inputRef.current.focus();
+    //   inputRef.current.selectionStart = inputRef.current.value.length;
+    //   inputRef.current.selectionEnd = inputRef.current.value.length;
+    // }, [])
+
     const interviewbitTaskContext = useContext(InterviewbitTaskContext);
+    const [localNotes, setLocalNotes] = useState(notes)
 
-    function onTextAreaChange(event) {
+    function updateNotes() {
       //event.persist()
-      //setNotes(event.target.value)
-
-      //focus on ref
       //console.log(inputRef.current)
 
-      // const entryChanged = {
-      //   id: props.taskEntry.id,
-      //   question: props.taskEntry.question,
-      //   difficulty: props.taskEntry.difficulty,
-      //   link: props.taskEntry.link,
-      //   notes: event.target.value,
-      //   completed: props.taskEntry.completed
-      // }
+      const entryChanged = {
+        id: props.taskEntry.id,
+        question: props.taskEntry.question,
+        difficulty: props.taskEntry.difficulty,
+        link: props.taskEntry.link,
+        notes: localNotes,
+        completed: props.taskEntry.completed
+      }
 
-      // APIaxios.updateInterviewbitTask(entryChanged.id, entryChanged).then(
-      //   interviewbitTaskContext.interviewbitTaskDispatch(
-      //     {
-      //       type: INTERVIEWBIT_TASK_ACTIONS.PUT,
-      //       payload: entryChanged
-      //     }
-      //   )
-      // )
+      APIaxios.updateInterviewbitTask(entryChanged.id, entryChanged).then(
+        interviewbitTaskContext.interviewbitTaskDispatch(
+          {
+            type: INTERVIEWBIT_TASK_ACTIONS.PUT,
+            payload: entryChanged
+          }
+        )
+      )
 
-      // inputRef.current.focus();
-      // event.preventDefault();
+      //inputRef.current.focus();
+      //event.preventDefault();
     }
+
+    const [show, setShow] = useState(false);
+    const target = useRef(null);
 
     return (
       <React.Fragment>
-        <textarea ref={inputRef} value={"Under Development (refs and mouse events to be done)"} onChange={e => onTextAreaChange(e)}></textarea>
+
+        <textarea
+          ref={target} onClick={() => setShow(!show)}
+          value={localNotes}
+          onChange={(e) => setLocalNotes(e.target.value)}
+          onBlur={updateNotes}
+        ></textarea>
+
+        <Overlay target={target.current} show={show} placement="bottom">
+          {({ placement, arrowProps, show: _show, popper, ...props }) => (
+            <div
+              {...props}
+              style={{
+                position: 'absolute',
+                backgroundColor: 'grey',
+                padding: '2px 10px',
+                color: 'white',
+                marginTop: '3px',
+                borderRadius: 3,
+                ...props.style,
+              }}
+            >
+              Changes made locally. Click out of textbox to save.
+            </div>
+          )}
+        </Overlay>
+
+        {/* <Overlay target={target.current} show={show} placement="bottom">
+          <p>My Tooltip</p>
+        </Overlay> */}
+
       </React.Fragment >
     )
   }
