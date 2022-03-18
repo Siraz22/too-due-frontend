@@ -120,7 +120,8 @@ function InterviewbitTaskEntry(props) {
         difficulty: props.taskEntry.difficulty,
         link: props.taskEntry.link,
         notes: props.taskEntry.notes,
-        completed: !completionBool
+        completed: !completionBool,
+        topic: topic
       }
 
       APIaxios.updateInterviewbitTask(questionToggled.id, questionToggled).then(
