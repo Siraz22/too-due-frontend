@@ -120,17 +120,17 @@ function GenericTaskComponent(props) {
                 <th><Button color='none' onClick={() => {
                   setSortingString('name');
                   setSortingOrder(prevState => !prevState);
-                }}>Task {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+                }}> <strong>Task</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
                 <th><Button color='none' onClick={() => {
                   setSortingString('priority');
                   setSortingOrder(prevState => !prevState);
-                }}>Priority {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+                }}><strong>Priority</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
                 <th><Button color='none' onClick={() => {
                   setSortingString('status');
                   setSortingOrder(prevState => !prevState);
-                }}>Status {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+                }}><strong>Status</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
                 <th>Actions</th>
               </tr>

@@ -10,7 +10,7 @@ import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 import InterviewbitTaskOperationsModal from './InterviewbitTaskOperationsModal';
 import { MODAL_OPERATION } from '../CustomTasks/GenericTaskOperationsModals';
 import { Overlay, OverlayTrigger } from 'react-bootstrap';
-import { Tooltip } from 'bootstrap';
+import { BsFileEarmarkCode } from 'react-icons/bs'
 
 function InterviewbitTaskComponent() {
 
@@ -53,6 +53,7 @@ function InterviewbitTaskComponent() {
                 <th></th>
                 <th>Ques</th>
                 <th>Difficulty</th>
+                <th>Topic</th>
                 <th>Notes</th>
                 <th>Actions</th>
               </tr>
@@ -98,7 +99,7 @@ function InterviewbitTaskComponent() {
 
 function InterviewbitTaskEntry(props) {
 
-  const { id, question, difficulty, link, notes, completed } = props.taskEntry
+  const { id, question, difficulty, link, notes, completed, topic } = props.taskEntry
   const [completionBool, setCompletionBool] = useState(completed);
 
   const inputRef = useRef()
@@ -193,7 +194,8 @@ function InterviewbitTaskEntry(props) {
         difficulty: props.taskEntry.difficulty,
         link: props.taskEntry.link,
         notes: localNotes,
-        completed: props.taskEntry.completed
+        completed: props.taskEntry.completed,
+        topic: props.taskEntry.topic
       }
 
       APIaxios.updateInterviewbitTask(entryChanged.id, entryChanged).then(
@@ -249,7 +251,16 @@ function InterviewbitTaskEntry(props) {
     )
   }
 
+  function Topic() {
+    return topic
+  }
+
   function ActionButtons() {
+
+    let topicUrl = topic.replaceAll(" ", "%20")
+    let questionUrl = question.replaceAll(" ", "%20")
+    let url = "https://github.com/Siraz22/interviewbit/blob/master/" + topicUrl + "/" + questionUrl + ".java"
+
     return (
       <React.Fragment>
         <Link to={{
@@ -258,6 +269,10 @@ function InterviewbitTaskEntry(props) {
         }}>
           <i><FaTrashAlt color="maroon" fontSize={20} /></i>
         </Link>
+        {' '}
+        <a href={url}>
+          <i><BsFileEarmarkCode color="grey" fontSize={20} /></i>
+        </a>
       </React.Fragment >
     )
   }
@@ -268,6 +283,7 @@ function InterviewbitTaskEntry(props) {
         <td className="align-middle"><DoneButton /></td>
         <td className="align-middle"><Question /></td>
         <td className="align-middle"><Difficulty /></td>
+        <td className="align-middle"><Topic /></td>
         <td className="align-middle"><Notes /></td>
         <td className="align-middle"><ActionButtons /></td>
       </tr>

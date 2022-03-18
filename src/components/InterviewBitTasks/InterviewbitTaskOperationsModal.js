@@ -20,6 +20,7 @@ function InterviewbitTaskOperationsModal(props) {
     const [difficulty, setDifficulty] = useState()
     const [link, setLink] = useState()
     const [completed, setCompletionBool] = useState(false)
+    const [topic, setTopic] = useState()
 
     function onAdd() {
       const entry = {
@@ -28,7 +29,8 @@ function InterviewbitTaskOperationsModal(props) {
         difficulty: difficulty,
         link: link,
         notes: null,
-        completed: completed
+        completed: completed,
+        topic: topic
       }
 
       APIaxios.addInterviewbitTask(entry).then(
@@ -69,6 +71,28 @@ function InterviewbitTaskOperationsModal(props) {
                 <Label> <Input id={"Medium"} type="radio" name="difficulty" /> Medium </Label>
                 <br />
                 <Label> <Input id={"Hard"} type="radio" name="difficulty" /> Hard </Label>
+              </FormGroup>
+
+              <FormGroup >
+                <legend>Topic</legend>
+                <FormGroup onClick={(e) => setTopic(e.target.value)}>
+                  <Input type="select">
+                    <option>Arrays</option>
+                    <option>Math</option>
+                    <option>Binary Search</option>
+                    <option>Strings</option>
+                    <option>Bit Manipulation</option>
+                    <option>Two Pointers</option>
+                    <option>Linked Lists</option>
+                    <option>Stacks and Queues</option>
+                    <option>Backtracking</option>
+                    <option>Heaps and Maps</option>
+                    <option>Tree Data Structure</option>
+                    <option>Dynamic Programming</option>
+                    <option>Greedy Algorithm</option>
+                    <option>Graph Data Structure</option>
+                  </Input>
+                </FormGroup>
               </FormGroup>
 
               <Button color="success" onClick={onAdd}>
