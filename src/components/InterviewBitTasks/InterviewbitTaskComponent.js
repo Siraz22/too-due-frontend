@@ -9,7 +9,7 @@ import { FcAddRow } from 'react-icons/fc'
 import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 import InterviewbitTaskOperationsModal from './InterviewbitTaskOperationsModal';
 import { MODAL_OPERATION } from '../CustomTasks/GenericTaskOperationsModals';
-import { Overlay, OverlayTrigger } from 'react-bootstrap';
+import { Overlay } from 'react-bootstrap';
 import { BsFileEarmarkCode } from 'react-icons/bs'
 
 function InterviewbitTaskComponent() {
