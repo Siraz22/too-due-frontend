@@ -1,7 +1,5 @@
 import axios from "axios";
-import { useContext } from "react";
 import { Component } from "react/cjs/react.production.min";
-import { GenericTaskContext } from "../App";
 
 const api = axios.create({
   baseURL: "https://too-due-backend.herokuapp.com/react-api"
