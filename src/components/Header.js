@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { Container, Form, Nav, Navbar, NavItem, NavLink } from 'react-bootstrap'
+import { Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import LoginPage from './LoginPage'
 
 function Header() {
 
@@ -32,11 +35,20 @@ function Header() {
               </NavDropdown> */}
             </Nav>
             <Nav>
-              <Nav.Link href="/">Login</Nav.Link>
+              <Nav.Link as={Link} to={"/login"}>Login</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      <Route path="/login" exact render={
+        (props) => (
+          <LoginPage
+            {...props}
+          />
+        )
+      } />
+
     </div>
   )
 }

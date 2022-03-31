@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Button, Modal, Form, InputGroup } from 'react-bootstrap'
 
-function LoginPage() {
+function LoginPage(props) {
 
   const [show, setShow] = useState(true);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    console.log(props.history.push("/"))
+  }
   const handleShow = () => setShow(true);
 
   console.log("Login Page")

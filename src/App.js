@@ -4,8 +4,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import TaskList from './components/TaskList';
 import React, { createContext, useReducer } from 'react';
-import { Button } from 'react-bootstrap';
 import LoginPage from './components/LoginPage';
+import { BrowserRouter } from 'react-router-dom';
 
 export const GENERIC_TASK_ACTIONS = {
   POST: 'add',
@@ -91,25 +91,33 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <GenericTaskContext.Provider
-        value={{ genericTaskState: genericTaskState, genericTaskDispatch: genericTaskDispatch }}
-      >
-        <InterviewbitTaskContext.Provider
-          value={{ interviewbitTaskState: interviewbitTaskState, interviewbitTaskDispatch: interviewbitTaskDispatch }}
+    <BrowserRouter>
+      <div className="App">
+
+        <GenericTaskContext.Provider
+          value={{ genericTaskState: genericTaskState, genericTaskDispatch: genericTaskDispatch }}
         >
+          <InterviewbitTaskContext.Provider
+            value={{ interviewbitTaskState: interviewbitTaskState, interviewbitTaskDispatch: interviewbitTaskDispatch }}
+          >
 
-          <Header />
-          {loginAtStartUp()}
-          <div className="container">
-            <TaskList></TaskList>
-          </div>
-          {/* <Button onClick={showLogs} >Show Logs</Button> */}
-          <Footer />
 
-        </InterviewbitTaskContext.Provider>
-      </GenericTaskContext.Provider>
-    </div>
+
+            <Header />
+            {loginAtStartUp()}
+            <div className="container">
+              <TaskList></TaskList>
+            </div>
+            {/* <Button onClick={showLogs} >Show Logs</Button> */}
+            <Footer />
+
+
+          </InterviewbitTaskContext.Provider>
+        </GenericTaskContext.Provider>
+
+
+      </div >
+    </BrowserRouter>
   );
 }
 
