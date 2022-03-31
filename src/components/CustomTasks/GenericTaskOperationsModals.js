@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, Form, FormFeedback, FormGroup, Input, Label, Modal, ModalBody, ModalHeader } from 'reactstrap'
+import { Button, Form, InputGroup, Modal } from 'react-bootstrap'
 import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../../App'
 import { GENERIC_PRIORITY, GENERIC_STATUS } from './GenericTaskComponent'
 import { v4 as uuid } from 'uuid'
@@ -16,6 +16,8 @@ function GenericTaskOperationsModal(props) {
   const genericTaskContext = useContext(GenericTaskContext)
 
   function AddModal() {
+
+    console.log("add modal")
 
     const [taskName, setTaskName] = useState('')
     const [priority, setPriority] = useState(GENERIC_PRIORITY.LOW)
@@ -48,48 +50,51 @@ function GenericTaskOperationsModal(props) {
     return (
       <React.Fragment>
 
-        <Modal isOpen={true}>
-          <ModalHeader toggle={closeModal}>Add a new generic task</ModalHeader>
-          <ModalBody>
+        <Modal show={true}>
+          <Modal.Header>Add a new generic task</Modal.Header>
+          <Modal.Body>
             <Form>
-              <FormGroup>
+
+              <Form.Group className='mb-3'>
                 <legend>Task Name</legend>
-                <Input placeholder='A summary of your task'
-                  valid={taskName === '' ? false : true}
-                  invalid={taskName === '' ? true : false}
-                  onChange={(e) => setTaskName(e.target.value)}>
-                </Input>
-                <FormFeedback invalid>Task should have a name</FormFeedback>
-              </FormGroup>
-              <FormGroup onClick={(e) => setPriority(e.target.id)}>
+                <InputGroup hasValidation>
+                  <Form.Control placeholder='A summary of your task'
+                    isValid={taskName === '' ? false : true}
+                    isInvalid={taskName === '' ? true : false}
+                    onChange={(e) => setTaskName(e.target.value)}>
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">Task should have a name</Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group className='mb-3' onClick={(e) => setPriority(e.target.id)}>
                 <legend>Priority</legend>
-                <Label> <Input id={GENERIC_PRIORITY.LOW} defaultChecked={true} type="radio" name="priority" /> {GENERIC_PRIORITY.LOW} </Label>
-                <br />
-                <Label> <Input id={GENERIC_PRIORITY.MODERATE} type="radio" name="priority" /> {GENERIC_PRIORITY.MODERATE} </Label>
-                <br />
-                <Label> <Input id={GENERIC_PRIORITY.HIGH} type="radio" name="priority" /> {GENERIC_PRIORITY.HIGH} </Label>
-              </FormGroup>
-              <FormGroup >
+                <Form.Check id={GENERIC_PRIORITY.LOW} defaultChecked={true} type="radio" name="priority" label={GENERIC_PRIORITY.LOW} />
+                <Form.Check id={GENERIC_PRIORITY.MODERATE} type="radio" name="priority" label={GENERIC_PRIORITY.MODERATE} />
+                <Form.Check id={GENERIC_PRIORITY.HIGH} type="radio" name="priority" label={GENERIC_PRIORITY.HIGH} />
+              </Form.Group>
+
+              <Form.Group className='mb-3'>
                 <legend>Status</legend>
-                <FormGroup onClick={(e) => setStatus(e.target.value)}>
-                  <Input type="select">
+                <Form.Group onClick={(e) => setStatus(e.target.value)}>
+                  <Form.Select type="select">
                     <option>{GENERIC_STATUS.NOT_STARTED}</option>
                     <option>{GENERIC_STATUS.UNDERWAY}</option>
                     <option disabled={true}>{GENERIC_STATUS.COMPLETED}</option>
-                  </Input>
-                </FormGroup>
-              </FormGroup>
-              <Button color="success"
+                  </Form.Select>
+                </Form.Group>
+              </Form.Group>
+              <Button variant="success"
                 disabled={taskName === '' ? true : false}
                 onClick={onAdd}>
                 Add
               </Button>
               {' '}
-              <Button onClick={closeModal} color="danger">
+              <Button onClick={closeModal} variant="danger">
                 Cancel
               </Button>
             </Form>
-          </ModalBody>
+          </Modal.Body>
         </Modal>
 
       </React.Fragment >
@@ -119,18 +124,18 @@ function GenericTaskOperationsModal(props) {
     }
 
     return (
-      <Modal isOpen={true}>
-        <ModalHeader toggle={closeModal}>Delete Task?</ModalHeader>
-        <ModalBody>
+      <Modal show={true}>
+        <Modal.Header >Delete Task?</Modal.Header>
+        <Modal.Body>
           <legend>Task Summary</legend>
           <ul>
             <li><p style={{ marginBottom: "0rem" }}>{taskToDelete.taskName}</p></li>
             <li><p style={{ marginBottom: "0rem" }}>{taskToDelete.priority}</p></li>
             <li><p style={{ marginBottom: "0rem" }}>{taskToDelete.status}</p></li>
           </ul>
-          <Button color="danger" onClick={onDelete}>Yes</Button>{' '}
-          <Button color="secondary" onClick={closeModal}>No</Button>
-        </ModalBody>
+          <Button variant="danger" onClick={onDelete}>Yes</Button>{' '}
+          <Button variant="secondary" onClick={closeModal}>No</Button>
+        </Modal.Body>
       </Modal>
     )
   }
@@ -168,59 +173,59 @@ function GenericTaskOperationsModal(props) {
     return (
       <React.Fragment>
 
-        <Modal isOpen={true}>
-          <ModalHeader toggle={closeModal}>Updating generic Task</ModalHeader>
-          <ModalBody>
+        <Modal show={true}>
+          <Modal.Header >Updating generic Task</Modal.Header>
+          <Modal.Body>
             <Form>
-              <FormGroup>
+              <Form.Group className="mb-3">
                 <legend>Task Name</legend>
-                <Input value={taskName}
-                  valid={taskName === '' ? false : true}
-                  invalid={taskName === '' ? true : false}
-                  onChange={(e) => setTaskName(e.target.value)}>
-                </Input>
-                <FormFeedback invalid>Task should have a name</FormFeedback>
+                <InputGroup hasValidation>
+                  <Form.Control value={taskName}
+                    isValid={taskName === '' ? false : true}
+                    isInvalid={taskName === '' ? true : false}
+                    onChange={(e) => setTaskName(e.target.value)}>
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">Task should have a name</Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
 
-              </FormGroup>
-
-              <FormGroup onClick={(e) => setPriority(e.target.id)}
+              <Form.Group className="mb-3" onClick={(e) => setPriority(e.target.id)}
               >
                 <legend>Priority</legend>
-                <Label> <Input id={GENERIC_PRIORITY.LOW}
+                <Form.Check id={GENERIC_PRIORITY.LOW}
                   defaultChecked={priority === GENERIC_PRIORITY.LOW ? true : false}
-                  type="radio" name="priority" /> {GENERIC_PRIORITY.LOW} </Label>
-                <br />
-                <Label> <Input id={GENERIC_PRIORITY.MODERATE}
+                  type="radio" name="priority" label={GENERIC_PRIORITY.LOW} />
+                <Form.Check id={GENERIC_PRIORITY.MODERATE}
                   defaultChecked={priority === GENERIC_PRIORITY.MODERATE ? true : false}
-                  type="radio" name="priority" /> {GENERIC_PRIORITY.MODERATE} </Label>
-                <br />
-                <Label> <Input id={GENERIC_PRIORITY.HIGH}
+                  type="radio" name="priority" label={GENERIC_PRIORITY.MODERATE} />
+                <Form.Check id={GENERIC_PRIORITY.HIGH}
                   defaultChecked={priority === GENERIC_PRIORITY.HIGH ? true : false}
-                  type="radio" name="priority" /> {GENERIC_PRIORITY.HIGH} </Label>
-              </FormGroup>
+                  type="radio" name="priority" label={GENERIC_PRIORITY.HIGH} />
+              </Form.Group>
 
-              {/* <FormGroup >
+              <Form.Group className="mb-3">
                 <legend>Status</legend>
-                <FormGroup onClick={(e) => setStatus(e.target.value)}>
-                  <Input type="select">
+                <Form.Group onClick={(e) => setStatus(e.target.value)}>
+                  <Form.Select type="select">
                     <option>{GENERIC_STATUS.NOT_STARTED}</option>
                     <option>{GENERIC_STATUS.UNDERWAY}</option>
                     <option disabled={true}>{GENERIC_STATUS.COMPLETED}</option>
-                  </Input>
-                </FormGroup>
-              </FormGroup> */}
+                  </Form.Select>
+                </Form.Group>
+              </Form.Group>
 
-              <Button color="success" onClick={onEdit}
+              <Button variant="success" onClick={onEdit}
                 disabled={taskName === '' ? true : false}
               >
                 Edit
               </Button>
               {' '}
-              <Button onClick={closeModal} color="danger">
+              <Button onClick={closeModal} variant="danger">
                 Cancel
               </Button>
+
             </Form>
-          </ModalBody>
+          </Modal.Body>
         </Modal>
 
       </React.Fragment >
@@ -233,8 +238,8 @@ function GenericTaskOperationsModal(props) {
     else if (props.modalOperation === MODAL_OPERATION.EDIT_MODAL) return <EditModal />
   }
 
-  console.log("Inside Modal Operations");
-  console.log(props)
+  // console.log("Inside Modal Operations");
+  // console.log(props)
 
   return (
     <React.Fragment>

@@ -3,8 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import TaskList from './components/TaskList';
-import { createContext, useReducer } from 'react';
-import { Button } from 'reactstrap';
+import React, { createContext, useReducer } from 'react';
+import { Button } from 'react-bootstrap';
+import LoginPage from './components/LoginPage';
 
 export const GENERIC_TASK_ACTIONS = {
   POST: 'add',
@@ -81,6 +82,14 @@ function App() {
     console.log(interviewbitTaskState);
   }
 
+  function loginAtStartUp() {
+    return (
+      <React.Fragment>
+        <LoginPage />
+      </React.Fragment>
+    )
+  }
+
   return (
     <div className="App">
       <GenericTaskContext.Provider
@@ -90,15 +99,13 @@ function App() {
           value={{ interviewbitTaskState: interviewbitTaskState, interviewbitTaskDispatch: interviewbitTaskDispatch }}
         >
 
-
           <Header />
+          {loginAtStartUp()}
           <div className="container">
             <TaskList></TaskList>
           </div>
-          <Button onClick={showLogs} >Show Logs</Button>
+          {/* <Button onClick={showLogs} >Show Logs</Button> */}
           <Footer />
-
-
 
         </InterviewbitTaskContext.Provider>
       </GenericTaskContext.Provider>

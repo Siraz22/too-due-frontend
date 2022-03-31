@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { Dropdown } from 'react-bootstrap'
 import GenericTaskComponent from './CustomTasks/GenericTaskComponent'
 import InterviewbitTaskComponent from './InterviewBitTasks/InterviewbitTaskComponent'
 import { FaGithub } from 'react-icons/fa'
@@ -7,32 +7,24 @@ import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 
 function TaskList() {
 
-  const [dropdownOpen, setToggle] = useState(false)
   const [dropdownValue, setDropdownValue] = useState("Generic Tasks")
 
   return (
-    < div className="row " >
+    < div className="row" >
       <Switch>
         <div className="col-8">
 
-          <Dropdown isOpen={dropdownOpen} toggle={() => setToggle(!dropdownOpen)}>
-            <DropdownToggle caret color="btn btn-outline-dark">
+          <Dropdown>
+            <Dropdown.Toggle variant="btn btn-outline-dark">
               {dropdownValue}
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Select List Type</DropdownItem>
-              <Link className="text-decoration-none" to="/generic">
-                <DropdownItem onClick={(e) => setDropdownValue(e.currentTarget.textContent)}>Generic Tasks</DropdownItem>
-              </Link>
-              <Link className="text-decoration-none" to="/interviewbit">
-                <DropdownItem onClick={(e) => setDropdownValue(e.currentTarget.textContent)}>Interviewbit</DropdownItem>
-              </Link>
-              <Link className="text-decoration-none" to="/investments">
-                <DropdownItem onClick={(e) => setDropdownValue(e.currentTarget.textContent)}>Investments</DropdownItem>
-              </Link>
-            </DropdownMenu>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item as={Link} to={"/generic"} onClick={(e) => setDropdownValue(e.currentTarget.textContent)}>Generic Tasks</Dropdown.Item >
+              <Dropdown.Item as={Link} to={"/interviewbit"} onClick={(e) => setDropdownValue(e.currentTarget.textContent)}>Interviewbit</Dropdown.Item>
+            </Dropdown.Menu>
           </Dropdown>
         </div>
+
         <div className="col-4">
           <FaGithub fontSize={22} />{' '}
           <p style={{ marginBottom: "0" }}>Join to contribute and learn?</p>{' '}
@@ -61,7 +53,6 @@ function TaskList() {
 
         </div>
       </Switch>
-
     </div >
   )
 }

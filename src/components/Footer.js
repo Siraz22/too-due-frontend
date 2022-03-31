@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button } from 'reactstrap'
+import { Button } from 'react-bootstrap'
 import '../css/misc.css'
 import { FcAbout, FcQuestions } from 'react-icons/fc'
 
@@ -39,9 +39,9 @@ function Footer() {
               <h6 className="mb-0 font-weight-light">Want your username to be set up? Let's get in touch!</h6>
             </div>
             <div className="col-sm-5">
-              <Button color="primary" className="rounded-circle btn-circle"></Button>
-              <Button color="danger" className="rounded-circle btn-circle"></Button>
-              <Button color="success" className="rounded-circle btn-circle"></Button>
+              <Button variant="primary" className="rounded-circle btn-circle"></Button>
+              <Button variant="danger" className="rounded-circle btn-circle"></Button>
+              <Button variant="success" className="rounded-circle btn-circle"></Button>
             </div>
           </div>
           <hr style={{ marginBottom: "5px" }} />

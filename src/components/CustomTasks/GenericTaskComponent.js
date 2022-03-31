@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, ButtonToggle, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Table } from 'reactstrap'
+import { Button, ToggleButton, Dropdown, Table } from 'react-bootstrap'
 import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../../App'
 import { FcAddRow } from "react-icons/fc";
 import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
@@ -117,17 +117,17 @@ function GenericTaskComponent(props) {
               <tr>
                 <th></th>
 
-                <th><Button color='none' onClick={() => {
+                <th><Button variant='none' onClick={() => {
                   setSortingString('name');
                   setSortingOrder(prevState => !prevState);
                 }}> <strong>Task</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
-                <th><Button color='none' onClick={() => {
+                <th><Button variant='none' onClick={() => {
                   setSortingString('priority');
                   setSortingOrder(prevState => !prevState);
                 }}><strong>Priority</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
-                <th><Button color='none' onClick={() => {
+                <th><Button variant='none' onClick={() => {
                   setSortingString('status');
                   setSortingOrder(prevState => !prevState);
                 }}><strong>Status</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
@@ -141,7 +141,7 @@ function GenericTaskComponent(props) {
                 <td>
 
                   <Link to="/add">
-                    <Button color='none'>
+                    <Button variant='none'>
                       <FcAddRow fontSize={42} />
                     </Button>
                   </Link>
@@ -229,9 +229,9 @@ function GenericTaskEntry(props) {
 
     return (
       < React.Fragment >
-        <ButtonToggle color='none' onClick={doneToggle}>
+        <ToggleButton variant='none' onClick={doneToggle}>
           <img src={completionBool ? 'logoArrow.png' : 'logoArrowIncomplete.png'} style={{ height: "30px" }} />
-        </ButtonToggle>
+        </ToggleButton>
       </React.Fragment >
     )
   }
@@ -254,7 +254,7 @@ function GenericTaskEntry(props) {
 
     return (
       <React.Fragment>
-        <Button color={color}>{priority}</Button>
+        <Button variant={color}>{priority}</Button>
       </React.Fragment>
     )
   }
@@ -296,19 +296,19 @@ function GenericTaskEntry(props) {
 
     return (
       <React.Fragment>
-        <Dropdown isOpen={genericTaskDropdownOpen} toggle={() => setStatusToggle(!genericTaskDropdownOpen)}>
-          <DropdownToggle disabled={completionBool} color={color} caret>
+        <Dropdown >
+          <Dropdown.Toggle disabled={completionBool} variant={color}>
             {genericStatusValue}
-          </DropdownToggle>
-          <DropdownMenu>
-            {/* <DropdownItem onClick={(e) => setStatusValue(e.currentTarget.textContent)}>{GENERIC_STATUS.NOT_STARTED}</DropdownItem>
-            <DropdownItem onClick={(e) => setStatusValue(e.currentTarget.textContent)}>{GENERIC_STATUS.UNDERWAY}</DropdownItem> */}
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            {/* <Dropdown.Item onClick={(e) => setStatusValue(e.currentTarget.textContent)}>{GENERIC_STATUS.NOT_STARTED}</Dropdown.Item>
+            <Dropdown.Item onClick={(e) => setStatusValue(e.currentTarget.textContent)}>{GENERIC_STATUS.UNDERWAY}</Dropdown.Item> */}
 
-            <DropdownItem onClick={(e) => changedStatus(e.currentTarget.textContent)}>{GENERIC_STATUS.NOT_STARTED}</DropdownItem>
-            <DropdownItem onClick={(e) => changedStatus(e.currentTarget.textContent)}>{GENERIC_STATUS.UNDERWAY}</DropdownItem>
+            <Dropdown.Item onClick={(e) => changedStatus(e.currentTarget.textContent)}>{GENERIC_STATUS.NOT_STARTED}</Dropdown.Item>
+            <Dropdown.Item onClick={(e) => changedStatus(e.currentTarget.textContent)}>{GENERIC_STATUS.UNDERWAY}</Dropdown.Item>
 
-            <DropdownItem disabled>{GENERIC_STATUS.COMPLETED}</DropdownItem>
-          </DropdownMenu>
+            <Dropdown.Item disabled>{GENERIC_STATUS.COMPLETED}</Dropdown.Item>
+          </Dropdown.Menu>
         </Dropdown>
       </React.Fragment>
     )

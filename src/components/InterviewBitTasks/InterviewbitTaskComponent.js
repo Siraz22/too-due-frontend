@@ -1,7 +1,5 @@
-import react from 'react'
 import React from 'react'
 import { useContext, useEffect, useState, useRef } from 'react'
-import { ButtonToggle, Button, Table, FormFeedback } from 'reactstrap'
 import APIaxios from '../../apiService/APIaxios';
 import { InterviewbitTaskContext, INTERVIEWBIT_TASK_ACTIONS } from '../../App';
 import { FaTrashAlt } from 'react-icons/fa'
@@ -9,7 +7,7 @@ import { FcAddRow } from 'react-icons/fc'
 import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 import InterviewbitTaskOperationsModal from './InterviewbitTaskOperationsModal';
 import { MODAL_OPERATION } from '../CustomTasks/GenericTaskOperationsModals';
-import { Overlay } from 'react-bootstrap';
+import { Button, Table, Overlay, ToggleButton } from 'react-bootstrap';
 import { BsFileEarmarkCode } from 'react-icons/bs'
 
 function InterviewbitTaskComponent() {
@@ -42,7 +40,7 @@ function InterviewbitTaskComponent() {
   }
 
   return (
-    <react.Fragment>
+    <React.Fragment>
 
       <Switch>
 
@@ -64,7 +62,7 @@ function InterviewbitTaskComponent() {
               <tr>
                 <td>
                   <Link to="/interviewbit/add">
-                    <Button color="none">
+                    <Button variant="none">
                       <FcAddRow fontSize={42} />
                     </Button>
                   </Link>
@@ -93,7 +91,7 @@ function InterviewbitTaskComponent() {
         } />
 
       </Switch>
-    </react.Fragment >
+    </React.Fragment >
   )
 }
 
@@ -136,9 +134,9 @@ function InterviewbitTaskEntry(props) {
 
     return (
       <div>
-        <ButtonToggle color='none' onClick={doneToggle}>
+        <ToggleButton variant='none' onClick={doneToggle}>
           <img src={completionBool ? 'logoArrow.png' : 'logoArrowIncomplete.png'} style={{ height: "30px" }} />
-        </ButtonToggle>
+        </ToggleButton>
       </div>
     )
   }
@@ -167,7 +165,7 @@ function InterviewbitTaskEntry(props) {
     }, [])
 
     return (
-      <Button color={color}>
+      <Button variant={color}>
         {difficulty}
       </Button>
     )
