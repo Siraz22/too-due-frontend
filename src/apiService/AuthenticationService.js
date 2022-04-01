@@ -17,6 +17,16 @@ export class AuthenticationService extends Component {
     if (username != null) return true
     else return false
   }
+
+  getUsername() {
+    let username = ''
+    if (this.isLoggedIn()) {
+      return sessionStorage.getItem('authenticatedUser');
+    }
+    else {
+      return 'Guest'
+    }
+  }
 }
 
 export default new AuthenticationService();

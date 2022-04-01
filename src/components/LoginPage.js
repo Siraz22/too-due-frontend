@@ -23,9 +23,12 @@ function LoginPage(props) {
     //hardcoded
     if (username === 'siraz' && password === 'password123') {
       AuthenticationService.successfulLogin(username);
+
+      //context used to trigger re-rendering of shared context props - refreshes the header for changes
       authenticationContext.authenticationDispatch(
         {
-          type: AUTHENTICATION_ACTIONS.LOGIN
+          type: AUTHENTICATION_ACTIONS.LOGIN,
+          payload: { username: username }
         }
       );
       handleClose();

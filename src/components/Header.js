@@ -4,14 +4,23 @@ import { Route } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import AuthenticationService from '../apiService/AuthenticationService'
 import LoginPage from './LoginPage'
-import { AuthenticationContext } from '../App'
+import { AuthenticationContext, AUTHENTICATION_ACTIONS } from '../App'
 
 function Header() {
 
   const authenticationContext = useContext(AuthenticationContext);
 
-  console.log("Header")
-  console.log(authenticationContext)
+  // console.log("Header")
+  // console.log(authenticationContext)
+
+  function handleLogout() {
+    AuthenticationService.logout();
+    authenticationContext.authenticationDispatch(
+      {
+        type: AUTHENTICATION_ACTIONS.LOGOUT
+      }
+    )
+  }
 
   return (
     <div style={{ paddingBottom: "20px" }}>
@@ -28,7 +37,7 @@ function Header() {
               style={{ maxHeight: '100px' }}
             >
               <NavItem>
-                <Navbar.Text>Hello, Guest</Navbar.Text>
+                <Navbar.Text>Hello, {AuthenticationService.getUsername()}</Navbar.Text>
               </NavItem>
               {/* <NavDropdown title="User">
                 <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
@@ -41,7 +50,7 @@ function Header() {
             </Nav>
             <Nav>
               {!AuthenticationService.isLoggedIn() && <Nav.Link as={Link} to={"/login"}>Login</Nav.Link>}
-              {AuthenticationService.isLoggedIn() && <Button variant="none" onClick={AuthenticationService.logout()}>Logout</Button>}
+              {AuthenticationService.isLoggedIn() && <Button variant="none" onClick={handleLogout}>Logout</Button>}
             </Nav>
           </Navbar.Collapse>
         </Container>

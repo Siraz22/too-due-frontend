@@ -7,6 +7,7 @@ import React, { createContext, useReducer, useState } from 'react';
 import LoginPage from './components/LoginPage';
 import { BrowserRouter } from 'react-router-dom';
 import AuthenticationService from './apiService/AuthenticationService';
+import { Button } from 'react-bootstrap';
 
 export const GENERIC_TASK_ACTIONS = {
   POST: 'add',
@@ -40,8 +41,6 @@ function App() {
   const [genericTaskState, genericTaskDispatch] = useReducer(genericTaskReducer, [])
   const [interviewbitTaskState, interviewbitTaskDispatch] = useReducer(interviewbitTaskReducer, [])
   const [authenticationState, authenticationDispatch] = useReducer(authenticationReducer, { isLoggedIn: false })
-
-  const [isUserLoggedIn, setUserLoggedIn] = useState(AuthenticationService.isLoggedIn)
 
   function deleteGenericTask(taskStatePassed, id) {
     const newGenericTasks = taskStatePassed.filter((task) => {
@@ -92,14 +91,15 @@ function App() {
   function authenticationReducer(authenticationState, action) {
     console.log('authentication reducer executed')
     switch (action.type) {
-      case AUTHENTICATION_ACTIONS.LOGIN: return authenticationState.isLoggedIn = true;
-      case AUTHENTICATION_ACTIONS.LOGOUT: return authenticationState.isLoggedIn = false;
+      case AUTHENTICATION_ACTIONS.LOGIN: return { isLoggedIn: true }
+      case AUTHENTICATION_ACTIONS.LOGOUT: return { isLoggedIn: false }
     }
   }
 
   function showLogs() {
     //console.log(genericTaskState);
-    console.log(interviewbitTaskState);
+    // console.log(interviewbitTaskState);
+    console.log(authenticationState)
   }
 
   function loginAtStartUp() {
@@ -126,11 +126,11 @@ function App() {
 
 
               <Header />
-              {/* {loginAtStartUp()} */}
+              {/* {!AuthenticationService.isLoggedIn() && loginAtStartUp()} */}
               <div className="container">
                 <TaskList></TaskList>
               </div>
-              {/* <Button onClick={showLogs} >Show Logs</Button> */}
+              <Button onClick={showLogs} >Show Logs</Button>
               <Footer />
 
 
