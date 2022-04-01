@@ -7,6 +7,8 @@ import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
 
 function TaskList() {
 
+  console.log("Taskbar")
+
   const [dropdownValue, setDropdownValue] = useState("Generic Tasks")
 
   return (

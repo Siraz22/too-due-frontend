@@ -3,9 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import TaskList from './components/TaskList';
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useState } from 'react';
 import LoginPage from './components/LoginPage';
 import { BrowserRouter } from 'react-router-dom';
+import AuthenticationService from './apiService/AuthenticationService';
 
 export const GENERIC_TASK_ACTIONS = {
   POST: 'add',
@@ -23,13 +24,24 @@ export const INTERVIEWBIT_TASK_ACTIONS = {
   GET: 'get'
 }
 
+export const AUTHENTICATION_ACTIONS = {
+  LOGIN: 'login',
+  LOGOUT: 'logout'
+}
+
+export const AuthenticationContext = createContext();
 export const GenericTaskContext = createContext();
 export const InterviewbitTaskContext = createContext();
 
 function App() {
 
+  console.log("App")
+
   const [genericTaskState, genericTaskDispatch] = useReducer(genericTaskReducer, [])
   const [interviewbitTaskState, interviewbitTaskDispatch] = useReducer(interviewbitTaskReducer, [])
+  const [authenticationState, authenticationDispatch] = useReducer(authenticationReducer, { isLoggedIn: false })
+
+  const [isUserLoggedIn, setUserLoggedIn] = useState(AuthenticationService.isLoggedIn)
 
   function deleteGenericTask(taskStatePassed, id) {
     const newGenericTasks = taskStatePassed.filter((task) => {
@@ -77,6 +89,14 @@ function App() {
     }
   }
 
+  function authenticationReducer(authenticationState, action) {
+    console.log('authentication reducer executed')
+    switch (action.type) {
+      case AUTHENTICATION_ACTIONS.LOGIN: return authenticationState.isLoggedIn = true;
+      case AUTHENTICATION_ACTIONS.LOGOUT: return authenticationState.isLoggedIn = false;
+    }
+  }
+
   function showLogs() {
     //console.log(genericTaskState);
     console.log(interviewbitTaskState);
@@ -100,18 +120,23 @@ function App() {
           <InterviewbitTaskContext.Provider
             value={{ interviewbitTaskState: interviewbitTaskState, interviewbitTaskDispatch: interviewbitTaskDispatch }}
           >
+            <AuthenticationContext.Provider
+              value={{ authenticationState: authenticationState, authenticationDispatch: authenticationDispatch }}
+            >
+
+
+              <Header />
+              {/* {loginAtStartUp()} */}
+              <div className="container">
+                <TaskList></TaskList>
+              </div>
+              {/* <Button onClick={showLogs} >Show Logs</Button> */}
+              <Footer />
 
 
 
-            <Header />
-            {loginAtStartUp()}
-            <div className="container">
-              <TaskList></TaskList>
-            </div>
-            {/* <Button onClick={showLogs} >Show Logs</Button> */}
-            <Footer />
 
-
+            </AuthenticationContext.Provider>
           </InterviewbitTaskContext.Provider>
         </GenericTaskContext.Provider>
 

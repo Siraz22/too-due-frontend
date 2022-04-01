@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
-import { Container, Form, Nav, Navbar, NavItem, NavLink } from 'react-bootstrap'
+import React, { useContext } from 'react'
+import { Button, Container, Nav, Navbar, NavItem } from 'react-bootstrap'
 import { Route } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import AuthenticationService from '../apiService/AuthenticationService'
 import LoginPage from './LoginPage'
+import { AuthenticationContext } from '../App'
 
 function Header() {
 
-  const [navbarToggle, setNavbarToggle] = useState(false)
+  const authenticationContext = useContext(AuthenticationContext);
+
+  console.log("Header")
+  console.log(authenticationContext)
 
   return (
     <div style={{ paddingBottom: "20px" }}>
@@ -35,7 +40,8 @@ function Header() {
               </NavDropdown> */}
             </Nav>
             <Nav>
-              <Nav.Link as={Link} to={"/login"}>Login</Nav.Link>
+              {!AuthenticationService.isLoggedIn() && <Nav.Link as={Link} to={"/login"}>Login</Nav.Link>}
+              {AuthenticationService.isLoggedIn() && <Button variant="none" onClick={AuthenticationService.logout()}>Logout</Button>}
             </Nav>
           </Navbar.Collapse>
         </Container>

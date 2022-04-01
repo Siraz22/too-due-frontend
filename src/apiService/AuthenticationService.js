@@ -1,11 +1,11 @@
 import axios from "axios";
 
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 export class AuthenticationService extends Component {
 
-  successfulLogin() {
-    sessionStorage.setItem("authenticatedUser", "siraz")
+  successfulLogin(username) {
+    sessionStorage.setItem("authenticatedUser", username)
   }
 
   logout() {
@@ -17,7 +17,6 @@ export class AuthenticationService extends Component {
     if (username != null) return true
     else return false
   }
-
 }
 
 export default new AuthenticationService();
