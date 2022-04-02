@@ -4,7 +4,7 @@ import APIaxios from '../../apiService/APIaxios';
 import { InterviewbitTaskContext, INTERVIEWBIT_TASK_ACTIONS } from '../../App';
 import { FaTrashAlt } from 'react-icons/fa'
 import { FcAddRow } from 'react-icons/fc'
-import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
+import { Switch, Link, Route } from 'react-router-dom'
 import InterviewbitTaskOperationsModal from './InterviewbitTaskOperationsModal';
 import { MODAL_OPERATION } from '../CustomTasks/GenericTaskOperationsModals';
 import { Button, Table, Overlay, ToggleButton } from 'react-bootstrap';
@@ -42,36 +42,37 @@ function InterviewbitTaskComponent() {
   return (
     <React.Fragment>
 
+
+
+      <div className="table-responsive">
+        <Table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Ques</th>
+              <th>Difficulty</th>
+              <th>Topic</th>
+              <th>Notes</th>
+              <th>Actions</th>
+            </tr>
+
+          </thead>
+          <tbody>
+            {renderInterviewbitTasks()}
+            <tr>
+              <td>
+                <Link to="/interviewbit/add">
+                  <Button variant="none">
+                    <FcAddRow fontSize={42} />
+                  </Button>
+                </Link>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
+
       <Switch>
-
-        <div className="table-responsive">
-          <Table>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Ques</th>
-                <th>Difficulty</th>
-                <th>Topic</th>
-                <th>Notes</th>
-                <th>Actions</th>
-              </tr>
-
-            </thead>
-            <tbody>
-              {renderInterviewbitTasks()}
-              <tr>
-                <td>
-                  <Link to="/interviewbit/add">
-                    <Button variant="none">
-                      <FcAddRow fontSize={42} />
-                    </Button>
-                  </Link>
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
-
         <Route path="/interviewbit/add" exact render={
           (props) => (
             <InterviewbitTaskOperationsModal
@@ -81,6 +82,7 @@ function InterviewbitTaskComponent() {
 
           )
         } />
+
         <Route path="/interviewbit/delete/:id" exact render={
           (props) => (
             <InterviewbitTaskOperationsModal
@@ -89,7 +91,6 @@ function InterviewbitTaskComponent() {
             />
           )
         } />
-
       </Switch>
     </React.Fragment >
   )

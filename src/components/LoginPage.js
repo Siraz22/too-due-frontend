@@ -12,11 +12,13 @@ function LoginPage(props) {
   const [password, setPassword] = useState('')
 
   const handleClose = () => {
+
     setShow(false);
     console.log(props.history.push("/"))
   }
 
   const handleLogin = () => {
+
     //an attempt has been made to log in
     console.log(username + "," + password)
 

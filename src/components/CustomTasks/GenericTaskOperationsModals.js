@@ -238,8 +238,8 @@ function GenericTaskOperationsModal(props) {
     else if (props.modalOperation === MODAL_OPERATION.EDIT_MODAL) return <EditModal />
   }
 
-  // console.log("Inside Modal Operations");
-  // console.log(props)
+  console.log("Inside Modal Operations");
+  console.log(props)
 
   return (
     <React.Fragment>

@@ -2,13 +2,14 @@ import React, { useContext, useState } from 'react'
 import { Button, ToggleButton, Dropdown, Table } from 'react-bootstrap'
 import { GenericTaskContext, GENERIC_TASK_ACTIONS } from '../../App'
 import { FcAddRow } from "react-icons/fc";
-import { BrowserRouter as Switch, Link, Route } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 import GenericTaskOperationsModal from './GenericTaskOperationsModals';
 import { MODAL_OPERATION } from './GenericTaskOperationsModals';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa'
 import { useEffect } from 'react';
 import APIaxios from '../../apiService/APIaxios';
 import { FcCollapse, FcExpand } from 'react-icons/fc'
+import AuthenticatedRoute from '../AuthenticatedRoute';
 
 export const GENERIC_STATUS = {
   NOT_STARTED: 'Not Started',
@@ -107,77 +108,77 @@ function GenericTaskComponent(props) {
   return (
     <React.Fragment>
 
-      <Switch>
+      <div className="table-responsive">
+        <Table hover style={{
+          textAlign: "center"
+        }}>
+          <thead>
+            <tr>
+              <th></th>
 
-        <div className="table-responsive">
-          <Table hover style={{
-            textAlign: "center"
-          }}>
-            <thead>
-              <tr>
-                <th></th>
+              <th><Button variant='none' onClick={() => {
+                setSortingString('name');
+                setSortingOrder(prevState => !prevState);
+              }}> <strong>Task</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
-                <th><Button variant='none' onClick={() => {
-                  setSortingString('name');
-                  setSortingOrder(prevState => !prevState);
-                }}> <strong>Task</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+              <th><Button variant='none' onClick={() => {
+                setSortingString('priority');
+                setSortingOrder(prevState => !prevState);
+              }}><strong>Priority</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
-                <th><Button variant='none' onClick={() => {
-                  setSortingString('priority');
-                  setSortingOrder(prevState => !prevState);
-                }}><strong>Priority</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+              <th><Button variant='none' onClick={() => {
+                setSortingString('status');
+                setSortingOrder(prevState => !prevState);
+              }}><strong>Status</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
-                <th><Button variant='none' onClick={() => {
-                  setSortingString('status');
-                  setSortingOrder(prevState => !prevState);
-                }}><strong>Status</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {renderGenericTasks()}
+            <tr>
+              <td>
 
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {renderGenericTasks()}
-              <tr>
-                <td>
+                <Link to="/generic/add">
+                  <Button variant='none'>
+                    <FcAddRow fontSize={42} />
+                  </Button>
+                </Link>
 
-                  <Link to="/add">
-                    <Button variant='none'>
-                      <FcAddRow fontSize={42} />
-                    </Button>
-                  </Link>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
 
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
+      {/* {console.log("inside generic task switch route")} */}
 
-        <Route path="/add" exact render={
-          (props) => (
-            <GenericTaskOperationsModal
-              {...props}
-              modalOperation={MODAL_OPERATION.ADD_MODAL}
-            />
-          )
-        } />
-        <Route path="/delete/:id" exact render={
-          (props) => (
-            <GenericTaskOperationsModal
-              {...props}
-              modalOperation={MODAL_OPERATION.DELETE_MODAL}
-            />
-          )
-        }
-        />
-        <Route path="/edit/:id" exact render={
-          (props) => (
-            <GenericTaskOperationsModal
-              {...props}
-              modalOperation={MODAL_OPERATION.EDIT_MODAL}
-            />
-          )
-        } />
-      </Switch>
+      <Route exact path="/generic/add" render={
+        (props) => (
+          <GenericTaskOperationsModal
+            {...props}
+            modalOperation={MODAL_OPERATION.ADD_MODAL}
+          />
+        )
+      } />
+      <Route path="/generic/delete/:id" render={
+        (props) => (
+          <GenericTaskOperationsModal
+            {...props}
+            modalOperation={MODAL_OPERATION.DELETE_MODAL}
+          />
+        )
+      }
+      />
+      <Route path="/generic/edit/:id" render={
+        (props) => (
+          <GenericTaskOperationsModal
+            {...props}
+            modalOperation={MODAL_OPERATION.EDIT_MODAL}
+          />
+        )
+      } />
+
     </React.Fragment >
   )
 }
@@ -319,14 +320,14 @@ function GenericTaskEntry(props) {
       <React.Fragment>
 
         <Link to={{
-          pathname: `delete/${id}`,
+          pathname: `generic/delete/${id}`,
           taskEntry: { ...props.taskEntry }
         }}>
           <i><FaTrashAlt color="maroon" fontSize={20} /></i>
         </Link>{' '}
 
         <Link to={{
-          pathname: `edit/${id}`,
+          pathname: `generic/edit/${id}`,
           taskEntry: { ...props.taskEntry }
         }}>
           <i><FaEdit color="gray" fontSize={20} /></i>

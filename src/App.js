@@ -5,9 +5,7 @@ import Footer from './components/Footer';
 import TaskList from './components/TaskList';
 import React, { createContext, useReducer, useState } from 'react';
 import LoginPage from './components/LoginPage';
-import { BrowserRouter } from 'react-router-dom';
-import AuthenticationService from './apiService/AuthenticationService';
-import { Button } from 'react-bootstrap';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 export const GENERIC_TASK_ACTIONS = {
   POST: 'add',
@@ -36,7 +34,7 @@ export const InterviewbitTaskContext = createContext();
 
 function App() {
 
-  console.log("App")
+  //console.log("App")
 
   const [genericTaskState, genericTaskDispatch] = useReducer(genericTaskReducer, [])
   const [interviewbitTaskState, interviewbitTaskDispatch] = useReducer(interviewbitTaskReducer, [])
@@ -56,6 +54,10 @@ function App() {
   }
 
   function genericTaskReducer(taskState, action) {
+
+    // console.log("Generic task reducer called")
+    // console.log(action)
+
     switch (action.type) {
       case GENERIC_TASK_ACTIONS.POST: return [...taskState, action.payload];
       case GENERIC_TASK_ACTIONS.DELETE: return deleteGenericTask(taskState, action.payload);
@@ -72,8 +74,6 @@ function App() {
   }
 
   function updateInterviewbitTask(taskStatePassed, payloadPassed) {
-    // console.log("Putting");
-    // console.log(payloadPassed);
     return taskStatePassed.map((task) => {
       return task.id === payloadPassed.id ? payloadPassed : task
     })
@@ -103,15 +103,32 @@ function App() {
   }
 
   function loginAtStartUp() {
-    return (
-      <React.Fragment>
-        <LoginPage />
-      </React.Fragment>
-    )
+
+    console.log("Log in at startup")
+
+    if (sessionStorage.getItem('loggedInOnce') === null) {
+      console.log("No session")
+      sessionStorage.setItem('loggedInOnce', false)
+      return (
+        <React.Fragment>
+          <LoginPage />
+        </React.Fragment>
+      )
+    }
+    else if (sessionStorage.getItem('loggedInOnce') === false) {
+      console.log("session at false")
+      return (
+
+        < React.Fragment >
+          <LoginPage />
+        </React.Fragment >
+      )
+    }
+
   }
 
   return (
-    <BrowserRouter>
+    <Router>
       <div className="App">
 
         <GenericTaskContext.Provider
@@ -126,11 +143,11 @@ function App() {
 
 
               <Header />
-              {/* {!AuthenticationService.isLoggedIn() && loginAtStartUp()} */}
+              {/* {loginAtStartUp()} */}
               <div className="container">
                 <TaskList></TaskList>
               </div>
-              <Button onClick={showLogs} >Show Logs</Button>
+              {/* <Button onClick={showLogs} >Show Logs</Button> */}
               <Footer />
 
 
@@ -142,7 +159,7 @@ function App() {
 
 
       </div >
-    </BrowserRouter>
+    </Router>
   );
 }
 

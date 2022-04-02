@@ -5,12 +5,13 @@ import { Link } from 'react-router-dom'
 import AuthenticationService from '../apiService/AuthenticationService'
 import LoginPage from './LoginPage'
 import { AuthenticationContext, AUTHENTICATION_ACTIONS } from '../App'
+import { Switch } from 'react-router-dom'
 
 function Header() {
 
   const authenticationContext = useContext(AuthenticationContext);
 
-  // console.log("Header")
+  //console.log("Header")
   // console.log(authenticationContext)
 
   function handleLogout() {
@@ -56,13 +57,15 @@ function Header() {
         </Container>
       </Navbar>
 
-      <Route path="/login" exact render={
-        (props) => (
-          <LoginPage
-            {...props}
-          />
-        )
-      } />
+      <Switch>
+        <Route path="/login" exact render={
+          (props) => (
+            <LoginPage
+              {...props}
+            />
+          )
+        } />
+      </Switch>
 
     </div>
   )
