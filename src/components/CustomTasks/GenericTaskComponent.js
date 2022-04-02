@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import APIaxios from '../../apiService/APIaxios';
 import { FcCollapse, FcExpand } from 'react-icons/fc'
 import AuthenticatedRoute from '../AuthenticatedRoute';
+import AuthenticationService from '../../apiService/AuthenticationService';
 
 export const GENERIC_STATUS = {
   NOT_STARTED: 'Not Started',
@@ -232,7 +233,7 @@ function GenericTaskEntry(props) {
 
     return (
       < React.Fragment >
-        <ToggleButton variant='none' onClick={doneToggle}>
+        <ToggleButton variant='none' disabled={!AuthenticationService.isLoggedIn()} onClick={doneToggle}>
           <img src={completionBool ? 'logoArrow.png' : 'logoArrowIncomplete.png'} style={{ height: "30px" }} />
         </ToggleButton>
       </React.Fragment >
@@ -300,7 +301,7 @@ function GenericTaskEntry(props) {
     return (
       <React.Fragment>
         <Dropdown >
-          <Dropdown.Toggle disabled={completionBool} variant={color}>
+          <Dropdown.Toggle disabled={completionBool || !AuthenticationService.isLoggedIn()} variant={color}>
             {genericStatusValue}
           </Dropdown.Toggle>
           <Dropdown.Menu>

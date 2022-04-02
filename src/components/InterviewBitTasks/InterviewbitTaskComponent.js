@@ -9,6 +9,9 @@ import InterviewbitTaskOperationsModal from './InterviewbitTaskOperationsModal';
 import { MODAL_OPERATION } from '../CustomTasks/GenericTaskOperationsModals';
 import { Button, Table, Overlay, ToggleButton } from 'react-bootstrap';
 import { BsFileEarmarkCode } from 'react-icons/bs'
+import AuthenticationService from '../../apiService/AuthenticationService';
+import AuthenticatedRoute from '../AuthenticatedRoute';
+import { Redirect } from 'react-router-dom';
 
 function InterviewbitTaskComponent() {
 
@@ -73,7 +76,7 @@ function InterviewbitTaskComponent() {
       </div>
 
       <Switch>
-        <Route path="/interviewbit/add" exact render={
+        <AuthenticatedRoute path="/interviewbit/add" exact render={
           (props) => (
             <InterviewbitTaskOperationsModal
               {...props}
@@ -83,7 +86,7 @@ function InterviewbitTaskComponent() {
           )
         } />
 
-        <Route path="/interviewbit/delete/:id" exact render={
+        <AuthenticatedRoute path="/interviewbit/delete/:id" exact render={
           (props) => (
             <InterviewbitTaskOperationsModal
               {...props}
@@ -105,8 +108,14 @@ function InterviewbitTaskEntry(props) {
 
   function DoneButton() {
 
+
     const interviewbitTaskContext = useContext(InterviewbitTaskContext);
     function doneToggle() {
+
+      if (!AuthenticationService.isLoggedIn()) {
+        alert("Not logged in")
+        return;
+      }
 
       //NOTE : Ask someone why this is not working. for now it's solved with direct updation
       console.log(completionBool)
@@ -217,7 +226,7 @@ function InterviewbitTaskEntry(props) {
     return (
       <React.Fragment>
 
-        <textarea
+        <textarea disabled={!AuthenticationService.isLoggedIn()}
           ref={target} onClick={() => setShow(!show)}
           value={localNotes}
           onChange={(e) => setLocalNotes(e.target.value)}

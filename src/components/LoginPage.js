@@ -69,14 +69,14 @@ function LoginPage(props) {
             </Form.Group>
           </Form>
 
-          {
-            <Alert show={loginFailed} variant="danger" onClose={() => setLoginFailed(false)} dismissible>
-              <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-              <p>
-                Incorrect password or username
-              </p>
-            </Alert>
-          }
+
+          <Alert show={loginFailed} variant="danger" onClose={() => setLoginFailed(false)} dismissible>
+            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+            <p>
+              Incorrect password or username
+            </p>
+          </Alert>
+
 
         </Modal.Body>
         <Modal.Footer>

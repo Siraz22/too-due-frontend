@@ -3,7 +3,7 @@ import APIaxios from '../../apiService/APIaxios';
 import { v4 as uuid } from 'uuid'
 import { InterviewbitTaskContext, INTERVIEWBIT_TASK_ACTIONS } from '../../App';
 import { MODAL_OPERATION } from '../CustomTasks/GenericTaskOperationsModals';
-import { Button, Form, Modal, ModalBody, ModalHeader } from 'react-bootstrap'
+import { Button, Form, InputGroup, Modal, ModalBody, ModalHeader } from 'react-bootstrap'
 
 function InterviewbitTaskOperationsModal(props) {
 
@@ -15,11 +15,11 @@ function InterviewbitTaskOperationsModal(props) {
 
   function AddModal() {
 
-    const [question, setQuestionName] = useState()
-    const [difficulty, setDifficulty] = useState()
-    const [link, setLink] = useState()
-    const [completed, setCompletionBool] = useState(false)
-    const [topic, setTopic] = useState()
+    const [question, setQuestionName] = useState('')
+    const [difficulty, setDifficulty] = useState('Easy')
+    const [link, setLink] = useState('')
+    //const [completed, setCompletionBool] = useState(false)
+    const [topic, setTopic] = useState('Arrays')
 
     function onAdd() {
       const entry = {
@@ -27,8 +27,8 @@ function InterviewbitTaskOperationsModal(props) {
         question: question,
         difficulty: difficulty,
         link: link,
-        notes: null,
-        completed: completed,
+        notes: '',
+        completed: false,
         topic: topic
       }
 
@@ -52,21 +52,32 @@ function InterviewbitTaskOperationsModal(props) {
 
               <Form.Group className="mb-3">
                 <legend>Task Name</legend>
-                <Form.Control placeholder='Question name on Interviewbit'
-                  onChange={(e) => setQuestionName(e.target.value)}>
-                </Form.Control>
+                <InputGroup hasValidation>
+                  <Form.Control placeholder='Question name on Interviewbit'
+                    isValid={question === '' ? false : true}
+                    isInvalid={question === '' ? true : false}
+                    onChange={(e) => setQuestionName(e.target.value)}>
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">Question name is empty</Form.Control.Feedback>
+                </InputGroup>
               </Form.Group>
+
 
               <Form.Group className="mb-3">
                 <legend>Link</legend>
-                <Form.Control placeholder='Question Link'
-                  onChange={(e) => setLink(e.target.value)}>
-                </Form.Control>
+                <InputGroup hasValidation>
+                  <Form.Control placeholder='Question Link'
+                    isValid={link === '' ? false : true}
+                    isInvalid={link === '' ? true : false}
+                    onChange={(e) => setLink(e.target.value)}>
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">Link is empty</Form.Control.Feedback>
+                </InputGroup>
               </Form.Group>
 
               <Form.Group className="mb-3" onClick={(e) => setDifficulty(e.target.id)}>
                 <legend>Difficulty</legend>
-                <Form.Check id={"Very Easy"} type="radio" name="difficulty" label="Very Easy" />
+                <Form.Check id={"Very Easy"} defaultChecked={true} type="radio" name="difficulty" label="Very Easy" />
                 <Form.Check id={"Easy"} type="radio" name="difficulty" label="Easy" />
                 <Form.Check id={"Medium"} type="radio" name="difficulty" label="Medium" />
                 <Form.Check id={"Hard"} type="radio" name="difficulty" label="Hard" />
@@ -95,7 +106,7 @@ function InterviewbitTaskOperationsModal(props) {
                 </Form.Group>
               </Form.Group>
 
-              <Button variant="success" onClick={onAdd}>
+              <Button variant="success" disabled={question === '' || link === ''} onClick={onAdd}>
                 Add
               </Button>
               {' '}
