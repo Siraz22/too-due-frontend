@@ -153,31 +153,33 @@ function GenericTaskComponent(props) {
 
       {/* {console.log("inside generic task switch route")} */}
 
-      <Route exact path="/generic/add" render={
-        (props) => (
-          <GenericTaskOperationsModal
-            {...props}
-            modalOperation={MODAL_OPERATION.ADD_MODAL}
-          />
-        )
-      } />
-      <Route path="/generic/delete/:id" render={
-        (props) => (
-          <GenericTaskOperationsModal
-            {...props}
-            modalOperation={MODAL_OPERATION.DELETE_MODAL}
-          />
-        )
-      }
-      />
-      <Route path="/generic/edit/:id" render={
-        (props) => (
-          <GenericTaskOperationsModal
-            {...props}
-            modalOperation={MODAL_OPERATION.EDIT_MODAL}
-          />
-        )
-      } />
+      <Switch>
+        <AuthenticatedRoute exact path="/generic/add" render={
+          (props) => (
+            <GenericTaskOperationsModal
+              {...props}
+              modalOperation={MODAL_OPERATION.ADD_MODAL}
+            />
+          )
+        } />
+        <AuthenticatedRoute path="/generic/delete/:id" render={
+          (props) => (
+            <GenericTaskOperationsModal
+              {...props}
+              modalOperation={MODAL_OPERATION.DELETE_MODAL}
+            />
+          )
+        }
+        />
+        <AuthenticatedRoute path="/generic/edit/:id" render={
+          (props) => (
+            <GenericTaskOperationsModal
+              {...props}
+              modalOperation={MODAL_OPERATION.EDIT_MODAL}
+            />
+          )
+        } />
+      </Switch>
 
     </React.Fragment >
   )
@@ -187,7 +189,7 @@ function GenericTaskComponent(props) {
 function GenericTaskEntry(props) {
 
   const { id, taskName, priority, status } = props.taskEntry
-  const [genericTaskDropdownOpen, setStatusToggle] = useState()
+  // const [genericTaskDropdownOpen, setStatusToggle] = useState()
   const [genericStatusValue, setStatusValue] = useState(status)
   const [completionBool, setCompletionBool] = useState(status === GENERIC_STATUS.COMPLETED ? true : false)
 

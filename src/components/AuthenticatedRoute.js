@@ -9,7 +9,6 @@ function AuthenticatedRoute(props) {
   console.log(props)
 
   if (AuthenticationService.isLoggedIn()) {
-
     return (
       <React.Fragment>
         <Route {...props} />

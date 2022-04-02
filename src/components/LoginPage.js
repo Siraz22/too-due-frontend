@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, Modal, Form, InputGroup } from 'react-bootstrap'
+import { Button, Modal, Form, InputGroup, Alert } from 'react-bootstrap'
 import AuthenticationService from '../apiService/AuthenticationService';
 import { AuthenticationContext, AUTHENTICATION_ACTIONS } from '../App';
 
@@ -10,6 +10,7 @@ function LoginPage(props) {
   const [show, setShow] = useState(true);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [loginFailed, setLoginFailed] = useState(false)
 
   const handleClose = () => {
 
@@ -36,7 +37,7 @@ function LoginPage(props) {
       handleClose();
     }
     else {
-      console.log("Login Failed")
+      setLoginFailed(true)
     }
   }
 
@@ -55,11 +56,9 @@ function LoginPage(props) {
               <InputGroup hasValidation>
                 <Form.Control type="email" onChange={(e) => setUsername(e.target.value)} placeholder="Enter email"
                   isInvalid={username === '' ? true : false}
-                  isValid={username === '' ? false : true} />
+                />
                 <Form.Control.Feedback type="invalid">
                   Username is empty
-                </Form.Control.Feedback>
-                <Form.Control.Feedback type="valid">
                 </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
@@ -69,6 +68,16 @@ function LoginPage(props) {
               <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
             </Form.Group>
           </Form>
+
+          {
+            <Alert show={loginFailed} variant="danger" onClose={() => setLoginFailed(false)} dismissible>
+              <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+              <p>
+                Incorrect password or username
+              </p>
+            </Alert>
+          }
+
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
