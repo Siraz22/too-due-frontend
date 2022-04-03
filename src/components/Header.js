@@ -6,6 +6,7 @@ import AuthenticationService from '../apiService/AuthenticationService'
 import LoginPage from './LoginPage'
 import { AuthenticationContext, AUTHENTICATION_ACTIONS } from '../App'
 import { Switch } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 function Header() {
 
@@ -58,6 +59,11 @@ function Header() {
       </Navbar>
 
       <Switch>
+
+        {AuthenticationService.isLoggedIn() && <Route path="/login" exact>
+          <Redirect to="/generic" />
+        </Route>}
+
         <Route path="/login" exact render={
           (props) => (
             <LoginPage

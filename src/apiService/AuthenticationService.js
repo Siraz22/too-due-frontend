@@ -4,6 +4,16 @@ import { Component } from 'react'
 
 export class AuthenticationService extends Component {
 
+  basicAuthentication(username, password) {
+    return axios.get("http://localhost:8080/auth-api",
+      {
+        headers: {
+          authorization: 'Basic ' + window.btoa(username + ":" + password)
+        }
+      }
+    )
+  }
+
   successfulLogin(username) {
     sessionStorage.setItem("authenticatedUser", username)
   }

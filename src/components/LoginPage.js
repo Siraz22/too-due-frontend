@@ -13,35 +13,53 @@ function LoginPage(props) {
   const [loginFailed, setLoginFailed] = useState(false)
 
   const handleClose = () => {
-
     setShow(false);
-    console.log(props.history.push("/"))
+    props.history.push("/")
   }
 
   const handleLogin = () => {
 
     //an attempt has been made to log in
-    console.log(username + "," + password)
 
     //hardcoded
-    if (username === 'siraz' && password === 'password123') {
-      AuthenticationService.successfulLogin(username);
+    // if (username === 'siraz' && password === 'password123') {
+    //   AuthenticationService.successfulLogin(username);
 
-      //context used to trigger re-rendering of shared context props - refreshes the header for changes
-      authenticationContext.authenticationDispatch(
-        {
-          type: AUTHENTICATION_ACTIONS.LOGIN,
-          payload: { username: username }
+    //   //context used to trigger re-rendering of shared context props - refreshes the header for changes
+    //   authenticationContext.authenticationDispatch(
+    //     {
+    //       type: AUTHENTICATION_ACTIONS.LOGIN,
+    //       payload: { username: username }
+    //     }
+    //   );
+    //   handleClose();
+    // }
+    // else {
+    //   setLoginFailed(true)
+    // }
+
+    //from backend
+    AuthenticationService.basicAuthentication(username, password)
+      .then(
+        () => {
+          authenticationContext.authenticationDispatch(
+            {
+              type: AUTHENTICATION_ACTIONS.LOGIN,
+              payload: { username: username }
+            }
+          )
+          AuthenticationService.successfulLogin(username);
+          //console.log(response.data)
+          setLoginFailed(false)
+          handleClose();
         }
-      );
-      handleClose();
-    }
-    else {
-      setLoginFailed(true)
-    }
+      )
+      .catch(
+        setLoginFailed(true)
+      )
   }
 
-  console.log("Login Page")
+  //console.log("Login Page")
   return (
     <>
       <Modal show={show} onHide={handleClose}>

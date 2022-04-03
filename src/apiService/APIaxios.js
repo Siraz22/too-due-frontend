@@ -2,7 +2,8 @@ import axios from "axios";
 import { Component } from "react/cjs/react.production.min";
 
 const api = axios.create({
-  baseURL: "https://too-due-backend.herokuapp.com/react-api"
+  //baseURL: "https://too-due-backend.herokuapp.com/react-api"
+  baseURL: "http://localhost:8080/react-api"
 })
 
 class APIaxios extends Component {

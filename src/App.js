@@ -89,7 +89,7 @@ function App() {
   }
 
   function authenticationReducer(authenticationState, action) {
-    console.log('authentication reducer executed')
+    //console.log('authentication reducer executed')
     switch (action.type) {
       case AUTHENTICATION_ACTIONS.LOGIN: return { isLoggedIn: true }
       case AUTHENTICATION_ACTIONS.LOGOUT: return { isLoggedIn: false }

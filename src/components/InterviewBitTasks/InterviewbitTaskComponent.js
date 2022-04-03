@@ -118,9 +118,7 @@ function InterviewbitTaskEntry(props) {
       }
 
       //NOTE : Ask someone why this is not working. for now it's solved with direct updation
-      console.log(completionBool)
       setCompletionBool(prevState => !prevState);
-      console.log(completionBool)
 
       const questionToggled = {
         id: props.taskEntry.id,

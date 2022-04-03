@@ -11,6 +11,7 @@ import APIaxios from '../../apiService/APIaxios';
 import { FcCollapse, FcExpand } from 'react-icons/fc'
 import AuthenticatedRoute from '../AuthenticatedRoute';
 import AuthenticationService from '../../apiService/AuthenticationService';
+import { Alert } from 'react-bootstrap';
 
 export const GENERIC_STATUS = {
   NOT_STARTED: 'Not Started',
@@ -200,6 +201,11 @@ function GenericTaskEntry(props) {
 
     function doneToggle() {
 
+      if (!AuthenticationService.isLoggedIn()) {
+        alert("Not logeed in")
+        return;
+      }
+
       setCompletionBool(prevState => !prevState)
 
       const taskBeingToggled = {
@@ -233,7 +239,7 @@ function GenericTaskEntry(props) {
 
     return (
       < React.Fragment >
-        <ToggleButton variant='none' disabled={!AuthenticationService.isLoggedIn()} onClick={doneToggle}>
+        <ToggleButton variant='none' onClick={doneToggle}>
           <img src={completionBool ? 'logoArrow.png' : 'logoArrowIncomplete.png'} style={{ height: "30px" }} />
         </ToggleButton>
       </React.Fragment >
