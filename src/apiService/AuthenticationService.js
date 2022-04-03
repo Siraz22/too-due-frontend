@@ -14,12 +14,16 @@ export class AuthenticationService extends Component {
     )
   }
 
-  successfulLogin(username) {
+  successfulLogin(username, password) {
+    // APIaxios.setupAxiosInterceptorResponse(username, password)
+    // APIaxios.setupAxiosInterceptorRequest(username, password)
     sessionStorage.setItem("authenticatedUser", username)
+    sessionStorage.setItem("authenticationHeader", "Basic " + window.btoa(username + ":" + password))
   }
 
   logout() {
     sessionStorage.removeItem("authenticatedUser")
+    sessionStorage.removeItem("authenticationHeader")
   }
 
   isLoggedIn() {
@@ -37,6 +41,7 @@ export class AuthenticationService extends Component {
       return 'Guest'
     }
   }
+
 }
 
 export default new AuthenticationService();

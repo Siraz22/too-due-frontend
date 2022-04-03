@@ -48,7 +48,7 @@ function LoginPage(props) {
               payload: { username: username }
             }
           )
-          AuthenticationService.successfulLogin(username);
+          AuthenticationService.successfulLogin(username, password);
           //console.log(response.data)
           setLoginFailed(false)
           handleClose();
@@ -72,7 +72,7 @@ function LoginPage(props) {
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <InputGroup hasValidation>
-                <Form.Control type="email" onChange={(e) => setUsername(e.target.value)} placeholder="Enter email"
+                <Form.Control type="email" onChange={(e) => setUsername(e.target.value)} placeholder="Username"
                   isInvalid={username === '' ? true : false}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -99,7 +99,7 @@ function LoginPage(props) {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Continue as Guest
+            Cancel
           </Button>
           <Button variant="primary" onClick={handleLogin}>
             Login

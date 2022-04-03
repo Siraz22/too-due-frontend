@@ -52,7 +52,7 @@ function Header() {
             </Nav>
             <Nav>
               {!AuthenticationService.isLoggedIn() && <Nav.Link as={Link} to={"/login"}>Login</Nav.Link>}
-              {AuthenticationService.isLoggedIn() && <Button variant="none" onClick={handleLogout}>Logout</Button>}
+              {AuthenticationService.isLoggedIn() && <Button variant="danger" onClick={handleLogout}>Logout</Button>}
             </Nav>
           </Navbar.Collapse>
         </Container>
