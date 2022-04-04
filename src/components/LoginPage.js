@@ -41,7 +41,7 @@ function LoginPage(props) {
     //from backend
     AuthenticationService.basicAuthentication(username, password)
       .then(
-        () => {
+        (response) => {
           authenticationContext.authenticationDispatch(
             {
               type: AUTHENTICATION_ACTIONS.LOGIN,

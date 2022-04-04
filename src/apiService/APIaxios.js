@@ -7,7 +7,8 @@ import AuthenticationService from "./AuthenticationService";
 //   baseURL: "http://localhost:8080/react-api"
 // })
 
-let baseURL = "http://localhost:8080/react-api"
+//let baseURL = "http://localhost:8080/react-api"
+let baseURL = "https://too-due-backend.herokuapp.com/react-api"
 
 class APIaxios extends Component {
 
