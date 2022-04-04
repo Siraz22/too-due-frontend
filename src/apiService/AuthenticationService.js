@@ -1,11 +1,12 @@
 import axios from "axios";
-
+import { baseURL } from "./APIaxios";
 import { Component } from 'react'
 
 export class AuthenticationService extends Component {
 
   basicAuthentication(username, password) {
-    return axios.get("http://localhost:8080/auth-api",
+    //console.log("doing basic auth with " + username + "," + password)
+    return axios.get(`${baseURL}/auth-api`,
       {
         headers: {
           authorization: 'Basic ' + window.btoa(username + ":" + password)

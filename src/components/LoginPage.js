@@ -49,7 +49,7 @@ function LoginPage(props) {
             }
           )
           AuthenticationService.successfulLogin(username, password);
-          //console.log(response.data)
+          console.log(response.data)
           setLoginFailed(false)
           handleClose();
         }

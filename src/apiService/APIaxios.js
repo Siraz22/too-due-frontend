@@ -7,8 +7,8 @@ import AuthenticationService from "./AuthenticationService";
 //   baseURL: "http://localhost:8080/react-api"
 // })
 
-//let baseURL = "http://localhost:8080/react-api"
-let baseURL = "https://too-due-backend.herokuapp.com/react-api"
+//export const baseURL = "http://localhost:8080/react-api"
+export const baseURL = "https://too-due-backend.herokuapp.com"
 
 class APIaxios extends Component {
 
@@ -50,17 +50,17 @@ class APIaxios extends Component {
     //states have to be set within async functions as of right now till i learn more
     //by trial and error
     console.log("Get task async")
-    return await axios.get(baseURL + "/genericTask/getTasks");
+    return await axios.get(baseURL + "/react-api/genericTask/getTasks");
   }
   addGenericTask = async (genericTaskEntry) => {
-    return await axios.post(baseURL + "/genericTask/addTask", genericTaskEntry);
+    return await axios.post(baseURL + "/react-api/genericTask/addTask", genericTaskEntry);
   }
 
   deleteGenericTask = async (genericTaskId) => {
-    return await axios.delete(`${baseURL}/genericTask/deleteTask/${genericTaskId}`);
+    return await axios.delete(`${baseURL}/react-api/genericTask/deleteTask/${genericTaskId}`);
   }
   updateGenericTask = async (genericTaskId, genericTaskEntry) => {
-    return await axios.put(`${baseURL}/genericTask/updateTask/${genericTaskId}`, genericTaskEntry,
+    return await axios.put(`${baseURL}/react-api/genericTask/updateTask/${genericTaskId}`, genericTaskEntry,
       {
         headers: {
           authorization: 'Basic ' + window.btoa('siraz' + ":" + 'password123')
@@ -71,16 +71,16 @@ class APIaxios extends Component {
 
 
   getInterviewbitTasks = async () => {
-    return await axios.get("/interviewbitTask/getTasks");
+    return await axios.get(`${baseURL}/react-api/interviewbitTask/getTasks`);
   }
   addInterviewbitTask = async (interviewbitTask) => {
-    return await axios.post("/interviewbitTask/addTask", interviewbitTask);
+    return await axios.post(`${baseURL}/react-api/interviewbitTask/addTask`, interviewbitTask);
   }
   deleteInterviewbitTask = async (interviewbitId) => {
-    return await axios.delete(`/interviewbitTask/deleteTask/${interviewbitId}`);
+    return await axios.delete(`${baseURL}/react-api/interviewbitTask/deleteTask/${interviewbitId}`);
   }
   updateInterviewbitTask = async (interviewbitId, interviewbitTaskEntry) => {
-    return await axios.put(`/interviewbitTask/updateTask/${interviewbitId}`, interviewbitTaskEntry);
+    return await axios.put(`${baseURL}/react-api/interviewbitTask/updateTask/${interviewbitId}`, interviewbitTaskEntry);
   }
 }
 

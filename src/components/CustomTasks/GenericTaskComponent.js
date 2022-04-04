@@ -202,7 +202,7 @@ function GenericTaskEntry(props) {
     function doneToggle() {
 
       if (!AuthenticationService.isLoggedIn()) {
-        alert("Not logeed in")
+        alert("Not logged in")
         return;
       }
 
