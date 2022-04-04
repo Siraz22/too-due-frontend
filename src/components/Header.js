@@ -26,13 +26,13 @@ function Header() {
 
   return (
     <div style={{ paddingBottom: "20px" }}>
-      <Navbar bg="dark" variant="dark" expand="md">
-        <Container fluid>
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Container>
           <Navbar.Brand href="/">
             <img src="logoArrow.png" style={{ height: "40px" }}>
             </img> too-due
           </Navbar.Brand>
-          {/* <NavbarToggler onClick={() => setNavbarToggle(!navbarToggle)} /> */}
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse>
             <Nav
               className="me-auto my-2 my-lg-0"
