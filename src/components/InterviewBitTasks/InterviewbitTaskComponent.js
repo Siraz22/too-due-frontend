@@ -12,20 +12,40 @@ import { BsFileEarmarkCode } from 'react-icons/bs'
 import AuthenticationService from '../../apiService/AuthenticationService';
 import AuthenticatedRoute from '../AuthenticatedRoute';
 import { Redirect } from 'react-router-dom';
+import { PropagateLoader } from 'react-spinners';
 
 function InterviewbitTaskComponent() {
 
+  const [loading, setLoading] = useState(false)
   const interviewbitTaskContext = useContext(InterviewbitTaskContext);
 
   useEffect(() => {
+    setLoading(true)
     //use this to call the Get API call and update the state
-    APIaxios.getInterviewbitTasks().then((response) =>
+    APIaxios.getInterviewbitTasks().then((response) => {
+      setLoading(false)
       interviewbitTaskContext.interviewbitTaskDispatch({
         type: INTERVIEWBIT_TASK_ACTIONS.GET,
         payload: response.data
       })
+    }
     )
   }, [])
+
+  function renderLoading() {
+    return (
+      <React.Fragment>
+        <div
+          className='text-center'
+        >
+          <PropagateLoader color='#4A90E2' />
+          <br />
+          <h4>{' '}Loading</h4>
+        </div>
+      </React.Fragment>
+
+    )
+  }
 
   function renderInterviewbitTasks() {
     let tempTaskList = [];
@@ -45,35 +65,39 @@ function InterviewbitTaskComponent() {
   return (
     <React.Fragment>
 
+      {loading ?
+        renderLoading()
+        :
 
+        <div className="table-responsive">
+          <Table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Ques</th>
+                <th>Difficulty</th>
+                <th>Topic</th>
+                <th>Notes</th>
+                <th>Actions</th>
+              </tr>
 
-      <div className="table-responsive">
-        <Table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Ques</th>
-              <th>Difficulty</th>
-              <th>Topic</th>
-              <th>Notes</th>
-              <th>Actions</th>
-            </tr>
+            </thead>
+            <tbody>
+              {renderInterviewbitTasks()}
+              <tr>
+                <td>
+                  <Link to="/interviewbit/add">
+                    <Button variant="none">
+                      <FcAddRow fontSize={42} />
+                    </Button>
+                  </Link>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
+      }
 
-          </thead>
-          <tbody>
-            {renderInterviewbitTasks()}
-            <tr>
-              <td>
-                <Link to="/interviewbit/add">
-                  <Button variant="none">
-                    <FcAddRow fontSize={42} />
-                  </Button>
-                </Link>
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-      </div>
 
       <Switch>
         <AuthenticatedRoute path="/interviewbit/add" exact render={

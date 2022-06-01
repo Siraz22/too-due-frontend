@@ -12,6 +12,7 @@ import { FcCollapse, FcExpand } from 'react-icons/fc'
 import AuthenticatedRoute from '../AuthenticatedRoute';
 import AuthenticationService from '../../apiService/AuthenticationService';
 import { Alert } from 'react-bootstrap';
+import { PropagateLoader } from 'react-spinners';
 
 export const GENERIC_STATUS = {
   NOT_STARTED: 'Not Started',
@@ -30,17 +31,36 @@ function GenericTaskComponent(props) {
   const genericTaskContext = useContext(GenericTaskContext)
   const [sortingString, setSortingString] = useState('name')
   const [ascendingSort, setSortingOrder] = useState(false)
+  const [loading, setLoading] = useState(false)
   let sortedTaskList = [];
 
   useEffect(() => {
     //use this to call the Get API call and update the state
-    APIaxios.getGenericTasks().then((response) =>
+    setLoading(true)
+    APIaxios.getGenericTasks().then((response) => {
+      setLoading(false)
       genericTaskContext.genericTaskDispatch({
         type: GENERIC_TASK_ACTIONS.GET,
         payload: response.data
       })
+    }
     )
   }, [])
+
+  function renderLoading() {
+    return (
+      <React.Fragment>
+        <div
+          className='text-center'
+        >
+          <PropagateLoader color='#4A90E2' />
+          <br />
+          <h4>{' '}Loading</h4>
+        </div>
+      </React.Fragment>
+
+    )
+  }
 
   function renderGenericTasks() {
 
@@ -110,48 +130,53 @@ function GenericTaskComponent(props) {
   return (
     <React.Fragment>
 
-      <div className="table-responsive">
-        <Table hover style={{
-          textAlign: "center"
-        }}>
-          <thead>
-            <tr>
-              <th></th>
+      {loading ?
+        renderLoading()
+        :
+        <div className="table-responsive">
+          <Table hover style={{
+            textAlign: "center"
+          }}>
+            <thead>
+              <tr>
+                <th></th>
 
-              <th><Button variant='none' onClick={() => {
-                setSortingString('name');
-                setSortingOrder(prevState => !prevState);
-              }}> <strong>Task</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+                <th><Button variant='none' onClick={() => {
+                  setSortingString('name');
+                  setSortingOrder(prevState => !prevState);
+                }}> <strong>Task</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
-              <th><Button variant='none' onClick={() => {
-                setSortingString('priority');
-                setSortingOrder(prevState => !prevState);
-              }}><strong>Priority</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+                <th><Button variant='none' onClick={() => {
+                  setSortingString('priority');
+                  setSortingOrder(prevState => !prevState);
+                }}><strong>Priority</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
-              <th><Button variant='none' onClick={() => {
-                setSortingString('status');
-                setSortingOrder(prevState => !prevState);
-              }}><strong>Status</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
+                <th><Button variant='none' onClick={() => {
+                  setSortingString('status');
+                  setSortingOrder(prevState => !prevState);
+                }}><strong>Status</strong> {ascendingSort === true ? <FcCollapse /> : <FcExpand />}</Button></th>
 
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {renderGenericTasks()}
-            <tr>
-              <td>
+                <th>Actions</th>
+              </tr>
+            </thead>
 
-                <Link to="/generic/add">
-                  <Button variant='none'>
-                    <FcAddRow fontSize={42} />
-                  </Button>
-                </Link>
+            <tbody>
+              {renderGenericTasks()}
+              <tr>
+                <td>
 
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-      </div>
+                  <Link to="/generic/add">
+                    <Button variant='none'>
+                      <FcAddRow fontSize={42} />
+                    </Button>
+                  </Link>
+
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
+      }
 
       {/* {console.log("inside generic task switch route")} */}
 
